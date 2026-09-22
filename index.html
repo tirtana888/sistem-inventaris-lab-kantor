@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem Inventaris Barang Lab & Kantor</title>
+
+  <!-- Google Font & Bootstrap 5.3 CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <style>
+    :root {
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-surface: #f8fafc;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-surface);
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .auth-wrapper {
+      min-height: calc(100vh - 120px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      overflow: hidden;
+    }
+
+    .auth-nav .nav-link {
+      color: #64748b;
+      font-weight: 600;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .auth-nav .nav-link.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+      background: transparent;
+    }
+
+    .stat-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .table-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+    }
+
+    .table thead th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e2e8f0;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .table tbody td {
+      vertical-align: middle;
+      font-size: 0.925rem;
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+    }
+
+    .badge-kondisi-baik {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .badge-kondisi-rusak-ringan {
+      background-color: #fef9c3;
+      color: #a16207;
+      border: 1px solid #fef08a;
+    }
+
+    .badge-kondisi-rusak-berat {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.25s ease;
+    }
+
+    .footer {
+      margin-top: auto;
+      border-top: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen Awal -->
+  <div id="initialLoading" class="loading-overlay">
+    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Memuat...</span>
+    </div>
+    <div class="fw-semibold text-secondary">Menghubungkan ke Sistem...</div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+    <div id="appToast" class="toast align-items-center text-white border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <!-- Text toast akan diisi via JS -->
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Header / Navbar -->
+  <header class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid px-lg-4">
+      <div class="d-flex align-items-center gap-2">
+        <div class="brand-logo shadow-sm">
+          <i class="bi bi-box-seam-fill"></i>
+        </div>
+        <div>
+          <h1 class="h6 mb-0 fw-bold">InventarisLab</h1>
+          <small class="text-muted d-none d-sm-block" style="font-size: 0.75rem;">Sistem Inventaris Lab & Kantor</small>
+        </div>
+      </div>
+
+      <!-- User Nav Session (Ditampilkan saat Login) -->
+      <div id="navUserSection" class="d-none ms-auto d-flex align-items-center gap-3">
+        <div class="d-none d-md-flex align-items-center gap-2 text-end">
+          <div>
+            <div class="small fw-semibold text-truncate" style="max-width: 220px;" id="navUserEmail">-</div>
+            <div class="badge bg-light text-secondary border" style="font-size: 0.7rem;">Petugas Terverifikasi</div>
+          </div>
+          <div class="rounded-circle bg-primary-subtle text-primary p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        </div>
+        <button id="btnLogout" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1.5 px-3 py-1.5 rounded-3">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Keluar</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow-1">
+
+    <!-- ============================================== -->
+    <!-- VIEW 1: AUTHENTICATION (LOGIN & REGISTER)      -->
+    <!-- ============================================== -->
+    <section id="authView" class="auth-wrapper d-none">
+      <div class="auth-card">
+        <!-- Auth Header Banner -->
+        <div class="p-4 pb-0 text-center">
+          <div class="d-inline-flex p-3 rounded-circle bg-primary-subtle text-primary mb-2">
+            <i class="bi bi-shield-lock-fill fs-3"></i>
+          </div>
+          <h2 class="h5 fw-bold mb-1">Akses Portal Inventaris</h2>
+          <p class="text-muted small">Silakan masuk atau daftarkan akun petugas Anda</p>
+        </div>
+
+        <!-- Auth Tabs -->
+        <ul class="nav nav-tabs nav-fill auth-nav mt-3" id="authTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-login" data-bs-toggle="tab" data-bs-target="#panel-login" type="button" role="tab">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-register" data-bs-toggle="tab" data-bs-target="#panel-register" type="button" role="tab">
+              <i class="bi bi-person-plus-fill me-1"></i> Daftar
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content p-4">
+          <!-- Alert Box untuk Notifikasi Auth -->
+          <div id="authAlert" class="alert alert-danger d-none py-2 px-3 small d-flex align-items-center gap-2 mb-3" role="alert">
+            <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+            <div id="authAlertText">Pesan error auth</div>
+          </div>
+
+          <!-- Tab Panel: Login -->
+          <div class="tab-pane fade show active" id="panel-login" role="tabpanel">
+            <form id="formLogin" novalidate>
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label small fw-semibold">Alamat Email</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="loginEmail" placeholder="nama@instansi.ac.id" required autocomplete="username" />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label small fw-semibold">Kata Sandi</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted"><i class="bi bi-key"></i></span>
+                  <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" />
+                </div>
+              </div>
+              <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100 py-2 rounded-3 fw-semibold d-flex align-items-center justify-content-center gap-2 mt-4">
+                <span>Masuk Sekarang</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Tab Panel: Register -->
+          <div class="tab-pane fade" id="panel-register" role="tabpanel">
+            <form id="formRegister" novalidate>
+              <div class="mb-3">
+                <label for="regEmail" class="form-label small fw-semibold">Alamat Email</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="regEmail" placeholder="nama@instansi.ac.id" required autocomplete="email" />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="regPassword" class="form-label small fw-semibold">Kata Sandi</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted"><i class="bi bi-key"></i></span>
+                  <input type="password" class="form-control" id="regPassword" placeholder="Minimal 6 karakter" minlength="6" required autocomplete="new-password" />
+                </div>
+                <div class="form-text" style="font-size: 0.75rem;">Panjang kata sandi minimal 6 karakter.</div>
+              </div>
+              <div class="mb-3">
+                <label for="regPasswordConfirm" class="form-label small fw-semibold">Konfirmasi Sandi</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted"><i class="bi bi-shield-check"></i></span>
+                  <input type="password" class="form-control" id="regPasswordConfirm" placeholder="Ulangi kata sandi" minlength="6" required autocomplete="new-password" />
+                </div>
+              </div>
+              <button type="submit" id="btnRegisterSubmit" class="btn btn-success w-100 py-2 rounded-3 fw-semibold d-flex align-items-center justify-content-center gap-2 mt-4">
+                <span>Daftarkan Akun</span>
+                <i class="bi bi-check2-circle"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- VIEW 2: DASHBOARD & CRUD INVENTARIS            -->
+    <!-- ============================================== -->
+    <section id="dashboardView" class="container-fluid px-lg-4 py-4 d-none">
+      
+      <!-- Welcome & Header Toolbar -->
+      <div class="d-flex flex-column flex-md-row md-align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1">Manajemen Inventaris Barang</h2>
+          <p class="text-muted small mb-0">Kelola dan pantau seluruh perlengkapan laboratorium dan kantor secara realtime.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2 rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#itemModal" id="btnOpenAddModal">
+            <i class="bi bi-plus-lg"></i>
+            <span class="fw-semibold">Tambah Barang</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick KPI Stats Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card p-3 d-flex align-items-center gap-3">
+            <div class="rounded-3 p-3 bg-primary-subtle text-primary fs-4">
+              <i class="bi bi-boxes"></i>
+            </div>
+            <div>
+              <div class="text-muted small fw-medium">Total Item</div>
+              <div class="fs-4 fw-bold" id="statTotalItem">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card p-3 d-flex align-items-center gap-3">
+            <div class="rounded-3 p-3 bg-info-subtle text-info fs-4">
+              <i class="bi bi-collection-fill"></i>
+            </div>
+            <div>
+              <div class="text-muted small fw-medium">Total Unit Fisik</div>
+              <div class="fs-4 fw-bold" id="statTotalUnit">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card p-3 d-flex align-items-center gap-3">
+            <div class="rounded-3 p-3 bg-success-subtle text-success fs-4">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div>
+              <div class="text-muted small fw-medium">Kondisi Baik</div>
+              <div class="fs-4 fw-bold" id="statKondisiBaik">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card p-3 d-flex align-items-center gap-3">
+            <div class="rounded-3 p-3 bg-danger-subtle text-danger fs-4">
+              <i class="bi bi-tools"></i>
+            </div>
+            <div>
+              <div class="text-muted small fw-medium">Perlu Perbaikan</div>
+              <div class="fs-4 fw-bold" id="statPerluPerbaikan">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter, Search & Table Card -->
+      <div class="table-container p-3 p-md-4">
+        
+        <!-- Filter Controls -->
+        <div class="row g-2 align-items-center mb-3">
+          <div class="col-12 col-md-4">
+            <div class="input-group">
+              <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-search"></i></span>
+              <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Cari nama barang atau lokasi..." />
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterKategori" class="form-select">
+              <option value="">Semua Kategori</option>
+              <option value="Elektronik">Elektronik</option>
+              <option value="ATK">ATK</option>
+              <option value="Perabot">Perabot</option>
+              <option value="Hardware Jaringan">Hardware Jaringan</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterKondisi" class="form-select">
+              <option value="">Semua Kondisi</option>
+              <option value="Baik">Baik</option>
+              <option value="Rusak Ringan">Rusak Ringan</option>
+              <option value="Rusak Berat">Rusak Berat</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-2 text-md-end">
+            <span class="text-muted small" id="recordCountLabel">Memuat data...</span>
+          </div>
+        </div>
+
+        <!-- Table Responsive Wrapper -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 45px;" class="text-center">No</th>
+                <th scope="col">Nama Barang</th>
+                <th scope="col">Kategori</th>
+                <th scope="col" class="text-center">Jumlah</th>
+                <th scope="col">Kondisi</th>
+                <th scope="col">Lokasi</th>
+                <th scope="col">Terakhir Diubah</th>
+                <th scope="col" class="text-end" style="min-width: 110px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+              <!-- Baris data dimuat secara dinamis via Realtime Database -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Empty State -->
+        <div id="emptyState" class="text-center py-5 d-none">
+          <div class="d-inline-flex p-4 rounded-circle bg-light text-secondary mb-3">
+            <i class="bi bi-box2 fs-1"></i>
+          </div>
+          <h5 class="fw-bold mb-1">Belum Ada Barang</h5>
+          <p class="text-muted small mb-3">Inventaris masih kosong atau tidak ada data yang cocok dengan filter pencarian.</p>
+          <button class="btn btn-outline-primary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#itemModal">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Barang Sekarang
+          </button>
+        </div>
+
+        <!-- Table Loading State -->
+        <div id="tableLoading" class="text-center py-5">
+          <div class="spinner-border text-primary spinner-border-sm me-2" role="status"></div>
+          <span class="text-muted small">Menyinkronkan data inventaris...</span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer py-3 text-center text-muted small">
+    <div class="container-fluid">
+      <span>&copy; 2026 Sistem Inventaris Barang Lab & Kantor &bull; Powered by Firebase Modular SDK</span>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- MODAL: TAMBAH / EDIT BARANG (CRUD)             -->
+  <!-- ============================================== -->
+  <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold" id="itemModalLabel">
+            <i class="bi bi-plus-circle me-1 text-primary" id="itemModalIcon"></i>
+            <span id="itemModalTitle">Tambah Barang Baru</span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="itemForm" novalidate>
+          <div class="modal-body p-4">
+            
+            <!-- Hidden key input untuk operasi Update -->
+            <input type="hidden" id="itemId" value="" />
+
+            <div class="mb-3">
+              <label for="namaBarang" class="form-label small fw-semibold">Nama Barang <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="namaBarang" placeholder="Contoh: Mikroskop Binokuler Olympus CX23" required />
+              <div class="invalid-feedback">Nama barang wajib diisi.</div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="kategori" class="form-label small fw-semibold">Kategori <span class="text-danger">*</span></label>
+                <select class="form-select" id="kategori" required>
+                  <option value="" disabled selected>Pilih Kategori</option>
+                  <option value="Elektronik">Elektronik</option>
+                  <option value="ATK">ATK</option>
+                  <option value="Perabot">Perabot</option>
+                  <option value="Hardware Jaringan">Hardware Jaringan</option>
+                </select>
+                <div class="invalid-feedback">Silakan pilih kategori.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="jumlah" class="form-label small fw-semibold">Jumlah (Unit) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="jumlah" min="1" value="1" required />
+                <div class="invalid-feedback">Jumlah minimal 1 unit.</div>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="kondisi" class="form-label small fw-semibold">Kondisi <span class="text-danger">*</span></label>
+                <select class="form-select" id="kondisi" required>
+                  <option value="Baik">Baik</option>
+                  <option value="Rusak Ringan">Rusak Ringan</option>
+                  <option value="Rusak Berat">Rusak Berat</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="lokasi" class="form-label small fw-semibold">Lokasi Penyimpanan <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="lokasi" placeholder="Contoh: Lab Komputer 2 / Rak A" required />
+                <div class="invalid-feedback">Lokasi wajib diisi.</div>
+              </div>
+            </div>
+
+            <div class="bg-light p-3 rounded-3 small text-muted">
+              <i class="bi bi-info-circle me-1"></i> Data akan otomatis dicatat dengan identitas akun Anda sebagai pembuat/pengubah.
+            </div>
+
+          </div>
+          <div class="modal-footer border-top px-4 py-3">
+            <button type="button" class="btn btn-light rounded-3" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" id="btnSaveItem" class="btn btn-primary rounded-3 px-4 fw-semibold d-flex align-items-center gap-2">
+              <span id="btnSaveSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+              <span id="btnSaveText">Simpan Data</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: KONFIRMASI HAPUS (DELETE)               -->
+  <!-- ============================================== -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow rounded-4 text-center p-3">
+        <div class="modal-body">
+          <div class="text-danger mb-3">
+            <i class="bi bi-trash3-fill display-5"></i>
+          </div>
+          <h6 class="fw-bold mb-2">Hapus Barang Ini?</h6>
+          <p class="text-muted small mb-0" id="deleteItemNamePrompt">Data yang dihapus tidak dapat dipulihkan kembali dari sistem.</p>
+        </div>
+        <div class="d-flex justify-content-center gap-2 pb-2">
+          <button type="button" class="btn btn-light btn-sm px-3 rounded-3" data-bs-dismiss="modal">Batal</button>
+          <button type="button" id="btnConfirmDelete" class="btn btn-danger btn-sm px-3 rounded-3 fw-semibold">
+            <span id="btnDeleteSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+            Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ============================================== -->
+  <!-- ES6 MODULES: FIREBASE V10 + LOGIKA APLIKASI    -->
+  <!-- ============================================== -->
+  <script type="module">
+    // -------------------------------------------------------------
+    // 1. IMPORT FIREBASE MODULAR SDK (v10)
+    // -------------------------------------------------------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      push, 
+      set, 
+      update, 
+      remove, 
+      onValue 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    // -------------------------------------------------------------
+    // 2. FIREBASE CONFIGURATION (Template Publik)
+    // -------------------------------------------------------------
+    let firebaseConfig = {
+      apiKey: "YOUR_API_KEY_HERE",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Muat konfigurasi pribadi dari config.js lokal (diabaikan oleh git)
+    try {
+      const localModule = await import("./config.js").catch(() => null);
+      if (localModule && localModule.firebaseConfig) {
+        firebaseConfig = localModule.firebaseConfig;
+      }
+    } catch {
+      // Tetap gunakan placeholder jika config.js tidak ada
+    }
+
+    // Inisialisasi Firebase App, Auth, dan Database
+    let app, auth, db;
+    let isFirebaseConfigured = true;
+
+    try {
+      if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("YOUR_API_KEY")) {
+        isFirebaseConfigured = false;
+        console.warn("PERINGATAN: Konfigurasi Firebase belum diatur. Salin config.example.js menjadi config.js dan isi kredensial proyek Anda.");
+      }
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getDatabase(app);
+    } catch (err) {
+      console.error("Gagal menginisialisasi Firebase:", err);
+    }
+
+    // -------------------------------------------------------------
+    // 3. STATE MANAGEMENT & DOM ELEMENTS
+    // -------------------------------------------------------------
+    let currentUser = null;
+    let inventoryData = {}; // Cache data dari Realtime Database { [key]: { ...data } }
+    let deleteTargetKey = null;
+
+    // Bootstrap Modal & Toast Instances
+    const itemModalElement = document.getElementById("itemModal");
+    const itemModal = new bootstrap.Modal(itemModalElement);
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+    const toastElement = document.getElementById("appToast");
+    const toastInstance = new bootstrap.Toast(toastElement, { delay: 3500 });
+
+    // Views
+    const initialLoading = document.getElementById("initialLoading");
+    const authView = document.getElementById("authView");
+    const dashboardView = document.getElementById("dashboardView");
+    const navUserSection = document.getElementById("navUserSection");
+    const navUserEmail = document.getElementById("navUserEmail");
+
+    // Auth Elements
+    const formLogin = document.getElementById("formLogin");
+    const formRegister = document.getElementById("formRegister");
+    const btnLoginSubmit = document.getElementById("btnLoginSubmit");
+    const btnRegisterSubmit = document.getElementById("btnRegisterSubmit");
+    const btnLogout = document.getElementById("btnLogout");
+    const authAlert = document.getElementById("authAlert");
+    const authAlertText = document.getElementById("authAlertText");
+
+    // Dashboard & Table Elements
+    const tableBody = document.getElementById("inventoryTableBody");
+    const tableLoading = document.getElementById("tableLoading");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+    const filterKategori = document.getElementById("filterKategori");
+    const filterKondisi = document.getElementById("filterKondisi");
+    const recordCountLabel = document.getElementById("recordCountLabel");
+
+    // KPI Counters
+    const statTotalItem = document.getElementById("statTotalItem");
+    const statTotalUnit = document.getElementById("statTotalUnit");
+    const statKondisiBaik = document.getElementById("statKondisiBaik");
+    const statPerluPerbaikan = document.getElementById("statPerluPerbaikan");
+
+    // CRUD Modal Elements
+    const itemForm = document.getElementById("itemForm");
+    const itemIdInput = document.getElementById("itemId");
+    const namaBarangInput = document.getElementById("namaBarang");
+    const kategoriInput = document.getElementById("kategori");
+    const jumlahInput = document.getElementById("jumlah");
+    const kondisiInput = document.getElementById("kondisi");
+    const lokasiInput = document.getElementById("lokasi");
+    const itemModalTitle = document.getElementById("itemModalTitle");
+    const itemModalIcon = document.getElementById("itemModalIcon");
+    const btnSaveItem = document.getElementById("btnSaveItem");
+    const btnSaveSpinner = document.getElementById("btnSaveSpinner");
+    const btnSaveText = document.getElementById("btnSaveText");
+    const btnOpenAddModal = document.getElementById("btnOpenAddModal");
+    const btnConfirmDelete = document.getElementById("btnConfirmDelete");
+    const btnDeleteSpinner = document.getElementById("btnDeleteSpinner");
+    const deleteItemNamePrompt = document.getElementById("deleteItemNamePrompt");
+
+    // -------------------------------------------------------------
+    // 4. HELPER FUNCTIONS: NOTIFIKASI & ERROR HANDLING
+    // -------------------------------------------------------------
+    function showToast(message, isSuccess = true) {
+      toastElement.className = `toast align-items-center text-white border-0 shadow ${isSuccess ? 'bg-success' : 'bg-danger'}`;
+      document.getElementById("toastMessage").innerHTML = `
+        <i class="bi ${isSuccess ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} fs-5"></i>
+        <span>${message}</span>
+      `;
+      toastInstance.show();
+    }
+
+    function showAuthAlert(message) {
+      authAlertText.textContent = message;
+      authAlert.classList.remove("d-none");
+    }
+
+    function hideAuthAlert() {
+      authAlert.classList.add("d-none");
+      authAlertText.textContent = "";
+    }
+
+    function mapAuthErrorMessage(errorCode) {
+      switch (errorCode) {
+        case "auth/invalid-email":
+          return "Format alamat email tidak valid.";
+        case "auth/user-not-found":
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+          return "Email atau kata sandi yang Anda masukkan salah.";
+        case "auth/email-already-in-use":
+          return "Alamat email ini sudah terdaftar. Silakan login atau gunakan email lain.";
+        case "auth/weak-password":
+          return "Kata sandi terlalu lemah. Minimal 6 karakter.";
+        case "auth/too-many-requests":
+          return "Terlalu banyak percobaan gagal. Silakan coba kembali sesaat lagi.";
+        case "auth/network-request-failed":
+          return "Gagal terhubung ke server. Periksa koneksi internet Anda.";
+        case "auth/api-key-not-valid":
+          return "Firebase API Key belum dikonfigurasi dengan benar di file index.html.";
+        default:
+          return `Terjadi kesalahan autentikasi: ${errorCode}`;
+      }
+    }
+
+    function formatDate(isoString) {
+      if (!isoString) return "-";
+      try {
+        const date = new Date(isoString);
+        return new Intl.DateTimeFormat("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(date);
+      } catch {
+        return isoString;
+      }
+    }
+
+    function getKondisiBadge(kondisi) {
+      if (kondisi === "Baik") {
+        return `<span class="badge badge-kondisi-baik px-2.5 py-1 rounded-pill"><i class="bi bi-check2 me-1"></i>Baik</span>`;
+      } else if (kondisi === "Rusak Ringan") {
+        return `<span class="badge badge-kondisi-rusak-ringan px-2.5 py-1 rounded-pill"><i class="bi bi-exclamation-triangle me-1"></i>Rusak Ringan</span>`;
+      } else if (kondisi === "Rusak Berat") {
+        return `<span class="badge badge-kondisi-rusak-berat px-2.5 py-1 rounded-pill"><i class="bi bi-x-circle me-1"></i>Rusak Berat</span>`;
+      }
+      return `<span class="badge bg-secondary">${kondisi || '-'}</span>`;
+    }
+
+    // -------------------------------------------------------------
+    // 5. AUTHENTICATION FLOW & STATE LISTENER
+    // -------------------------------------------------------------
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        // Hilangkan initial splash loader
+        initialLoading.style.opacity = "0";
+        setTimeout(() => initialLoading.classList.add("d-none"), 250);
+
+        if (user) {
+          // --- USER SUDAH LOGIN ---
+          currentUser = user;
+          authView.classList.add("d-none");
+          dashboardView.classList.remove("d-none");
+          navUserSection.classList.remove("d-none");
+          navUserEmail.textContent = user.email;
+
+          // Aktifkan Realtime Database Listener
+          listenToInventoryChanges();
+        } else {
+          // --- USER BELUM LOGIN (GUEST) ---
+          currentUser = null;
+          inventoryData = {};
+          dashboardView.classList.add("d-none");
+          navUserSection.classList.add("d-none");
+          authView.classList.remove("d-none");
+
+          if (!isFirebaseConfigured) {
+            showAuthAlert("Konfigurasi Firebase belum diisi. Buka index.html dan masukkan kredensial `firebaseConfig` Anda.");
+          }
+        }
+      });
+    } else {
+      initialLoading.classList.add("d-none");
+      authView.classList.remove("d-none");
+      showAuthAlert("Firebase SDK gagal dimulai. Pastikan firebaseConfig telah dikonfigurasi.");
+    }
+
+    // Handler Login
+    formLogin.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideAuthAlert();
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        showAuthAlert("Harap isi email dan kata sandi.");
+        return;
+      }
+
+      btnLoginSubmit.disabled = true;
+      btnLoginSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Memproses...`;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        formLogin.reset();
+        showToast("Login berhasil! Selamat datang.");
+      } catch (error) {
+        console.error("Login Error:", error);
+        showAuthAlert(mapAuthErrorMessage(error.code || error.message));
+      } finally {
+        btnLoginSubmit.disabled = false;
+        btnLoginSubmit.innerHTML = `<span>Masuk Sekarang</span><i class="bi bi-arrow-right"></i>`;
+      }
+    });
+
+    // Handler Register
+    formRegister.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideAuthAlert();
+
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const confirm = document.getElementById("regPasswordConfirm").value;
+
+      if (!email || !password || !confirm) {
+        showAuthAlert("Semua kolom registrasi wajib diisi.");
+        return;
+      }
+
+      if (password.length < 6) {
+        showAuthAlert("Kata sandi minimal harus 6 karakter.");
+        return;
+      }
+
+      if (password !== confirm) {
+        showAuthAlert("Konfirmasi kata sandi tidak cocok.");
+        return;
+      }
+
+      btnRegisterSubmit.disabled = true;
+      btnRegisterSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Mendaftarkan...`;
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        formRegister.reset();
+        showToast("Pendaftaran berhasil! Akun langsung aktif.");
+      } catch (error) {
+        console.error("Register Error:", error);
+        showAuthAlert(mapAuthErrorMessage(error.code || error.message));
+      } finally {
+        btnRegisterSubmit.disabled = false;
+        btnRegisterSubmit.innerHTML = `<span>Daftarkan Akun</span><i class="bi bi-check2-circle"></i>`;
+      }
+    });
+
+    // Handler Logout
+    btnLogout.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        showToast("Anda telah berhasil keluar.", true);
+      } catch (error) {
+        console.error("Logout Error:", error);
+        showToast("Gagal melakukan proses logout.", false);
+      }
+    });
+
+    // -------------------------------------------------------------
+    // 6. REALTIME DATABASE CRUD OPERATIONS (NODE: /inventaris)
+    // -------------------------------------------------------------
+    const inventarisRef = ref(db, "inventaris");
+
+    // [READ / SYNC] Realtime listener via onValue()
+    function listenToInventoryChanges() {
+      tableLoading.classList.remove("d-none");
+      emptyState.classList.add("d-none");
+
+      onValue(inventarisRef, (snapshot) => {
+        tableLoading.classList.add("d-none");
+        const val = snapshot.val();
+        inventoryData = val || {};
+        renderInventoryTable();
+      }, (error) => {
+        tableLoading.classList.add("d-none");
+        console.error("Database onValue error:", error);
+        showToast("Gagal memuat data dari database. Periksa Realtime Database Security Rules!", false);
+      });
+    }
+
+    // Render & Filter Tabel Inventaris
+    function renderInventoryTable() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const katFilter = filterKategori.value;
+      const kondFilter = filterKondisi.value;
+
+      tableBody.innerHTML = "";
+
+      let keys = Object.keys(inventoryData);
+      
+      // Update Statistik KPI menyeluruh
+      let totalItem = keys.length;
+      let totalUnit = 0;
+      let countBaik = 0;
+      let countPerluPerbaikan = 0;
+
+      keys.forEach((k) => {
+        const item = inventoryData[k];
+        const qty = parseInt(item.jumlah) || 0;
+        totalUnit += qty;
+        if (item.kondisi === "Baik") {
+          countBaik += qty;
+        } else {
+          countPerluPerbaikan += qty;
+        }
+      });
+
+      statTotalItem.textContent = totalItem.toLocaleString("id-ID");
+      statTotalUnit.textContent = totalUnit.toLocaleString("id-ID");
+      statKondisiBaik.textContent = countBaik.toLocaleString("id-ID");
+      statPerluPerbaikan.textContent = countPerluPerbaikan.toLocaleString("id-ID");
+
+      // Filter Data
+      const filteredKeys = keys.filter((key) => {
+        const item = inventoryData[key];
+        const matchesSearch = !searchTerm || 
+          (item.namaBarang && item.namaBarang.toLowerCase().includes(searchTerm)) ||
+          (item.lokasi && item.lokasi.toLowerCase().includes(searchTerm));
+        const matchesKat = !katFilter || item.kategori === katFilter;
+        const matchesKond = !kondFilter || item.kondisi === kondFilter;
+        return matchesSearch && matchesKat && matchesKond;
+      });
+
+      recordCountLabel.textContent = `Menampilkan ${filteredKeys.length} dari ${totalItem} barang`;
+
+      if (filteredKeys.length === 0) {
+        emptyState.classList.remove("d-none");
+        return;
+      }
+
+      emptyState.classList.add("d-none");
+
+      // Render Baris Tabel
+      filteredKeys.forEach((key, index) => {
+        const item = inventoryData[key];
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td class="text-center text-muted fw-semibold">${index + 1}</td>
+          <td>
+            <div class="fw-bold text-dark">${escapeHtml(item.namaBarang || "-")}</div>
+            <small class="text-muted" style="font-size: 0.75rem;">Oleh: ${escapeHtml(item.createdBy || "-")}</small>
+          </td>
+          <td><span class="badge bg-light text-dark border px-2 py-1">${escapeHtml(item.kategori || "-")}</span></td>
+          <td class="text-center"><span class="fw-semibold">${item.jumlah || 0}</span></td>
+          <td>${getKondisiBadge(item.kondisi)}</td>
+          <td>
+            <div class="d-flex align-items-center gap-1 text-secondary">
+              <i class="bi bi-geo-alt-fill text-muted" style="font-size: 0.85rem;"></i>
+              <span>${escapeHtml(item.lokasi || "-")}</span>
+            </div>
+          </td>
+          <td><span class="small text-muted">${formatDate(item.updatedAt)}</span></td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm" role="group">
+              <button class="btn btn-outline-primary btn-edit" data-id="${key}" title="Edit Data">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-delete" data-id="${key}" data-name="${escapeHtml(item.namaBarang || 'Barang')}" title="Hapus Data">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tableBody.appendChild(tr);
+      });
+
+      // Attach Event Listener ke tombol Edit & Delete
+      document.querySelectorAll(".btn-edit").forEach(btn => {
+        btn.addEventListener("click", () => openEditModal(btn.dataset.id));
+      });
+
+      document.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", () => openDeleteModal(btn.dataset.id, btn.dataset.name));
+      });
+    }
+
+    // Modal Create Mode Reset
+    btnOpenAddModal.addEventListener("click", () => {
+      itemForm.reset();
+      itemForm.classList.remove("was-validated");
+      itemIdInput.value = "";
+      jumlahInput.value = "1";
+      kondisiInput.value = "Baik";
+      itemModalTitle.textContent = "Tambah Barang Baru";
+      itemModalIcon.className = "bi bi-plus-circle me-1 text-primary";
+      btnSaveText.textContent = "Simpan Data";
+    });
+
+    // [UPDATE PRE-FILL] Buka modal dan isi nilai
+    function openEditModal(key) {
+      const item = inventoryData[key];
+      if (!item) return;
+
+      itemForm.reset();
+      itemForm.classList.remove("was-validated");
+      itemIdInput.value = key;
+      namaBarangInput.value = item.namaBarang || "";
+      kategoriInput.value = item.kategori || "";
+      jumlahInput.value = item.jumlah || 1;
+      kondisiInput.value = item.kondisi || "Baik";
+      lokasiInput.value = item.lokasi || "";
+
+      itemModalTitle.textContent = "Edit Data Barang";
+      itemModalIcon.className = "bi bi-pencil-square me-1 text-warning";
+      btnSaveText.textContent = "Perbarui Data";
+
+      itemModal.show();
+    }
+
+    // [CREATE & UPDATE] Submit Form Handler
+    itemForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!itemForm.checkValidity()) {
+        e.stopPropagation();
+        itemForm.classList.add("was-validated");
+        return;
+      }
+
+      const key = itemIdInput.value;
+      const isEdit = Boolean(key);
+
+      const payload = {
+        namaBarang: namaBarangInput.value.trim(),
+        kategori: kategoriInput.value,
+        jumlah: parseInt(jumlahInput.value, 10) || 1,
+        kondisi: kondisiInput.value,
+        lokasi: lokasiInput.value.trim(),
+        createdBy: currentUser ? currentUser.email : "Anonim",
+        updatedAt: new Date().toISOString()
+      };
+
+      // Loading state tombol submit modal
+      btnSaveItem.disabled = true;
+      btnSaveSpinner.classList.remove("d-none");
+      btnSaveText.textContent = isEdit ? "Memperbarui..." : "Menyimpan...";
+
+      try {
+        if (isEdit) {
+          // Operasi Update
+          const targetRef = ref(db, `inventaris/${key}`);
+          await update(targetRef, payload);
+          showToast("Data barang berhasil diperbarui!");
+        } else {
+          // Operasi Create (push + set)
+          const newRef = push(inventarisRef);
+          await set(newRef, payload);
+          showToast("Barang baru berhasil ditambahkan!");
+        }
+
+        itemModal.hide();
+        itemForm.reset();
+        itemForm.classList.remove("was-validated");
+      } catch (error) {
+        console.error("Gagal menyimpan data:", error);
+        showToast("Gagal menyimpan data barang. Periksa koneksi dan security rules.", false);
+      } finally {
+        btnSaveItem.disabled = false;
+        btnSaveSpinner.classList.add("d-none");
+        btnSaveText.textContent = isEdit ? "Perbarui Data" : "Simpan Data";
+      }
+    });
+
+    // [DELETE] Buka Modal Konfirmasi
+    function openDeleteModal(key, name) {
+      deleteTargetKey = key;
+      deleteItemNamePrompt.innerHTML = `Yakin ingin menghapus <strong>"${name}"</strong> dari inventaris?`;
+      deleteModal.show();
+    }
+
+    // [DELETE] Eksekusi remove()
+    btnConfirmDelete.addEventListener("click", async () => {
+      if (!deleteTargetKey) return;
+
+      btnConfirmDelete.disabled = true;
+      btnDeleteSpinner.classList.remove("d-none");
+
+      try {
+        const targetRef = ref(db, `inventaris/${deleteTargetKey}`);
+        await remove(targetRef);
+        showToast("Barang berhasil dihapus dari inventaris.");
+        deleteModal.hide();
+      } catch (error) {
+        console.error("Gagal menghapus:", error);
+        showToast("Gagal menghapus barang. Periksa hak akses database.", false);
+      } finally {
+        btnConfirmDelete.disabled = false;
+        btnDeleteSpinner.classList.add("d-none");
+        deleteTargetKey = null;
+      }
+    });
+
+    // Filter & Search Event Listeners
+    searchInput.addEventListener("input", renderInventoryTable);
+    filterKategori.addEventListener("change", renderInventoryTable);
+    filterKondisi.addEventListener("change", renderInventoryTable);
+
+    // XSS Prevention Utility
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Expose functions globally jika dibutuhkan inspeksi
+    window._app = { auth, db };
+  </script>
+</body>
+</html>
