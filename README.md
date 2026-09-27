@@ -67,26 +67,27 @@ Pilih tab **Rules** pada Realtime Database, lalu masukkan aturan berikut yang **
 ```
 Klik tombol **Publish** untuk menerapkan aturan.
 
-### 5. Atur Kredensial Firebase
-Salin file `config.example.js` menjadi `config.js` (file ini otomatis diabaikan oleh `.gitignore` sehingga aman tidak ter-upload ke publik):
+### 5. Atur Kredensial Firebase (Environment Variables)
 
+Untuk deployment di **Railway / Vercel**:
+Masuk ke menu **Variables** di dashboard Railway/Vercel proyek Anda, lalu tambahkan variabel berikut:
+
+```env
+VITE_FIREBASE_API_KEY=AIzaSy...
+VITE_FIREBASE_AUTH_DOMAIN=inventaris-lab--uc.firebaseapp.com
+VITE_FIREBASE_DATABASE_URL=https://inventaris-lab--uc-default-rtdb.asia-southeast1.firebasedatabase.app
+VITE_FIREBASE_PROJECT_ID=inventaris-lab--uc
+VITE_FIREBASE_STORAGE_BUCKET=inventaris-lab--uc.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=1075978973208
+VITE_FIREBASE_APP_ID=1:1075978973208:web:abcdef...
+```
+
+Untuk pengujian **Lokal**:
+Buat file `.env.local` (file ini otomatis diabaikan oleh `.gitignore` sehingga tidak akan terunggah ke GitHub):
 ```bash
-cp config.example.js config.js
+cp .env.example .env.local
 ```
-
-Lalu sesuaikan nilai kredensial dengan yang didapat dari Firebase Console Anda:
-
-```javascript
-export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_HERE",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-```
+Lalu isi nilai kredensial proyek Anda di `.env.local`.
 
 ---
 
