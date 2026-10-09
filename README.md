@@ -67,12 +67,13 @@ Pilih tab **Rules** pada Realtime Database, lalu masukkan aturan berikut yang **
 ```
 Klik tombol **Publish** untuk menerapkan aturan.
 
-### 5. Atur Kredensial Firebase (Environment Variables)
+### 5. Atur Kredensial Firebase & Gemini AI (Environment Variables)
 
 Untuk deployment di **Railway / Vercel**:
 Masuk ke menu **Variables** di dashboard Railway/Vercel proyek Anda, lalu tambahkan variabel berikut:
 
 ```env
+# Firebase Configuration
 VITE_FIREBASE_API_KEY=AIzaSy...
 VITE_FIREBASE_AUTH_DOMAIN=inventaris-lab--uc.firebaseapp.com
 VITE_FIREBASE_DATABASE_URL=https://inventaris-lab--uc-default-rtdb.asia-southeast1.firebasedatabase.app
@@ -80,26 +81,50 @@ VITE_FIREBASE_PROJECT_ID=inventaris-lab--uc
 VITE_FIREBASE_STORAGE_BUCKET=inventaris-lab--uc.firebasestorage.app
 VITE_FIREBASE_MESSAGING_SENDER_ID=1075978973208
 VITE_FIREBASE_APP_ID=1:1075978973208:web:abcdef...
+
+# Google Gemini AI Configuration (Model Terbaru: Gemini 3.8 Flash)
+VITE_GEMINI_API_KEY=AIzaSy...
+VITE_GEMINI_MODEL=gemini-3.8-flash
 ```
 
+> **Catatan Railway**:
+> - Dapatkan Gemini API Key gratis di [Google AI Studio](https://aistudio.google.com/).
+> - Variabel berawalan `VITE_` akan otomatis diinjeksi saat Railway menjalankan proses build (`npm run build`).
+
 Untuk pengujian **Lokal**:
-Buat file `.env.local` (file ini otomatis diabaikan oleh `.gitignore` sehingga tidak akan terunggah ke GitHub):
+Salin contoh file environment ke `.env.local` (file ini otomatis diabaikan oleh `.gitignore` sehingga tidak akan terunggah ke Git/GitHub):
 ```bash
 cp .env.example .env.local
 ```
-Lalu isi nilai kredensial proyek Anda di `.env.local`.
+Lalu lengkapi nilai kredensial proyek Anda di `.env.local`.
+
+---
+
+## 🤖 Fitur Asisten AI Gemini (Chat Inventaris Cerdas)
+
+Aplikasi telah dilengkapi widget chat asisten cerdas ditenagai **Google Gemini AI** model terbaru (**`gemini-3.8-flash`** dengan auto-fallback ke `gemini-3.5-flash-lite`, `gemini-2.5-flash`, `gemini-2.0-flash`, dan `gemini-1.5-flash`):
+
+- **Koneksi Realtime Otomatis**: Asisten AI membaca seluruh data inventaris yang aktif secara otomatis (jumlah unit, nama barang, kategori, kondisi baik/rusak, dan sebaran lokasi ruangan).
+- **Rekomendasi Pintar**: Mampu memberikan analisis kondisi alat lab, rekomendasi jadwal servis, dan SOP perawatan berkala.
+- **Dukungan Format Markdown**: Respon disajikan rapi dengan poin-poin, penekanan teks penting, dan tabel.
+- **Tombol Salin & Bersihkan**: Memudahkan menyalin jawaban atau mereset percakapan.
+- **Panel Pengaturan Fleksibel**: Pengguna dapat melihat status koneksi Railway atau menguji API Key secara lokal via ikon ⚙️ Pengaturan di dalam widget chat.
 
 ---
 
 ## 💻 Cara Menjalankan Aplikasi
 
-Aplikasi ini bersifat Single Page Application (SPA) murni tanpa build tool.
-Cukup buka file `index.html` di browser Anda:
-- Bisa menggunakan ekstensi **Live Server** di VS Code / Antigravity, atau
-- Jalankan via terminal PowerShell sederhana:
-  ```powershell
-  npx serve .
-  # atau
-  python -m http.server 8000
-  ```
-  Lalu buka `http://localhost:8000` di browser.
+Aplikasi dibangun menggunakan Vite untuk performa cepat dan kemudahan deployment:
+
+1. **Jalankan Mode Pengembangan (Local Dev)**:
+   ```bash
+   npm run dev
+   ```
+   Aplikasi akan terbuka otomatis di browser pada `http://localhost:5173`.
+
+2. **Build untuk Produksi (Railway / Production)**:
+   ```bash
+   npm run build
+   ```
+   Folder `dist` siap dideploy ke Railway Static / Web Service.
+

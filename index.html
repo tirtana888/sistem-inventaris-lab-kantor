@@ -180,6 +180,259 @@
       justify-content: center;
       font-size: 1.35rem;
     }
+
+    /* Gemini AI Chat Widget Styles */
+    .gemini-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1045;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #4f46e5 0%, #2563eb 50%, #06b6d4 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 10px 25px -3px rgba(37, 99, 235, 0.4), 0 4px 6px -4px rgba(37, 99, 235, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .gemini-fab:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 28px -3px rgba(37, 99, 235, 0.5), 0 6px 10px -4px rgba(37, 99, 235, 0.3);
+      color: #ffffff;
+    }
+    .gemini-fab .ai-badge {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .gemini-chat-window {
+      position: fixed;
+      bottom: 82px;
+      right: 24px;
+      width: 410px;
+      max-width: calc(100vw - 32px);
+      height: 580px;
+      max-height: calc(100vh - 100px);
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.85);
+      z-index: 1046;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: bottom right;
+    }
+    .gemini-header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gemini-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1 0%, #2563eb 50%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    .gemini-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f8fafc;
+      scroll-behavior: smooth;
+    }
+    .gemini-msg {
+      max-width: 88%;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+      animation: msgFadeIn 0.2s ease-out;
+    }
+    @keyframes msgFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .gemini-msg-user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 16px 16px 3px 16px;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+    .gemini-msg-bot {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1e293b;
+      padding: 12px 15px;
+      border-radius: 16px 16px 16px 3px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+    .gemini-msg-bot pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.78rem;
+      margin: 8px 0;
+    }
+    .gemini-msg-bot ul, .gemini-msg-bot ol {
+      padding-left: 20px;
+      margin-bottom: 6px;
+    }
+    .gemini-msg-bot table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 0.8rem;
+    }
+    .gemini-msg-bot table th, .gemini-msg-bot table td {
+      border: 1px solid #cbd5e1;
+      padding: 4px 8px;
+    }
+    .gemini-msg-bot table th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+    .gemini-quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .gemini-chip-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .gemini-chip-btn:hover {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .gemini-typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+    }
+    .gemini-typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #64748b;
+      animation: geminiBounce 1.4s infinite ease-in-out both;
+    }
+    .gemini-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .gemini-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes geminiBounce {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    .gemini-footer {
+      padding: 12px 14px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+    }
+    .gemini-input-group {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 4px 6px 4px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .gemini-input-group:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      background: #ffffff;
+    }
+    .gemini-textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.875rem;
+      resize: none;
+      max-height: 90px;
+      padding: 6px 0;
+      color: #1e293b;
+      line-height: 1.4;
+    }
+    .gemini-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .gemini-send-btn:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: scale(1.04);
+    }
+    .gemini-send-btn:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+    .gemini-settings-card {
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 16px;
+      animation: msgFadeIn 0.2s ease-out;
+    }
+    @media (max-width: 576px) {
+      .gemini-chat-window {
+        width: calc(100vw - 20px);
+        right: 10px;
+        bottom: 74px;
+        height: calc(100vh - 90px);
+      }
+      .gemini-fab {
+        bottom: 16px;
+        right: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -704,6 +957,124 @@
             <span>Edit Barang Ini</span>
           </button>
         </div>
+  <!-- ============================================== -->
+  <!-- FLOATING GEMINI AI CHATBOT WIDGET              -->
+  <!-- ============================================== -->
+  <!-- FAB Toggle Button -->
+  <button id="btnGeminiChatToggle" class="gemini-fab" title="Tanya Asisten AI Gemini">
+    <i class="bi bi-stars fs-5"></i>
+    <span>Tanya AI</span>
+    <span class="ai-badge">Gemini</span>
+  </button>
+
+  <!-- Gemini Chat Window -->
+  <div id="geminiChatWindow" class="gemini-chat-window d-none" role="region" aria-label="Asisten AI Inventaris">
+    <!-- Header -->
+    <div class="gemini-header d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2.5">
+        <div class="gemini-avatar">
+          <i class="bi bi-stars"></i>
+        </div>
+        <div>
+          <div class="fw-bold text-white small d-flex align-items-center gap-1.5">
+            <span>Asisten Inventaris</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.65rem;">Online</span>
+          </div>
+          <div class="d-flex align-items-center gap-1 mt-0.5">
+            <span class="badge bg-secondary-subtle text-light border border-secondary text-truncate" id="geminiModelBadge" style="font-size: 0.68rem; max-width: 140px;">gemini-3.8-flash</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <button id="btnGeminiSettingsToggle" class="btn btn-sm btn-outline-light border-0 p-1 rounded-circle" title="Pengaturan Model & API Key" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
+          <i class="bi bi-gear-fill" style="font-size: 0.85rem;"></i>
+        </button>
+        <button id="btnGeminiClearChat" class="btn btn-sm btn-outline-light border-0 p-1 rounded-circle" title="Bersihkan Percakapan" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
+          <i class="bi bi-arrow-clockwise" style="font-size: 0.95rem;"></i>
+        </button>
+        <button id="btnGeminiCloseChat" class="btn btn-sm btn-outline-light border-0 p-1 rounded-circle" title="Tutup Chat" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
+          <i class="bi bi-x-lg" style="font-size: 0.85rem;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Settings Panel -->
+    <div id="geminiSettingsPanel" class="gemini-settings-card d-none">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="small fw-bold text-dark"><i class="bi bi-sliders me-1 text-primary"></i>Pengaturan Gemini AI</span>
+        <button id="btnGeminiCloseSettings" class="btn btn-link btn-sm p-0 text-muted" style="font-size: 0.75rem;">Tutup</button>
+      </div>
+      <div class="mb-2">
+        <label for="geminiApiKeyInput" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">Gemini API Key (Google AI Studio)</label>
+        <div class="input-group input-group-sm">
+          <input type="password" class="form-control" id="geminiApiKeyInput" placeholder="Masukkan API Key jika belum diset di Railway" />
+          <button class="btn btn-outline-secondary" type="button" id="btnToggleApiKeyVisibility"><i class="bi bi-eye"></i></button>
+        </div>
+        <div class="small mt-1" id="geminiApiKeyStatusNote" style="font-size: 0.7rem; color: #64748b;">
+          Di Railway, tambahkan variable <code>VITE_GEMINI_API_KEY</code>.
+        </div>
+      </div>
+      <div class="mb-2">
+        <label for="geminiModelSelect" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">Pilihan Model Gemini</label>
+        <select class="form-select form-select-sm" id="geminiModelSelect">
+          <option value="gemini-3.8-flash">Gemini 3.8 Flash (Generasi Terbaru - Default)</option>
+          <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite (Cepat & Ringan)</option>
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+          <option value="gemini-1.5-flash">Gemini 1.5 Flash (Stabil)</option>
+        </select>
+      </div>
+      <div class="d-flex justify-content-end gap-1.5">
+        <button id="btnSaveGeminiSettings" class="btn btn-primary btn-sm rounded-2 py-1 px-2.5" style="font-size: 0.75rem;">
+          <i class="bi bi-check2 me-1"></i>Simpan Pengaturan
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="geminiMessages" class="gemini-messages">
+      <!-- AI Welcome Message -->
+      <div class="gemini-msg gemini-msg-bot">
+        <div class="d-flex align-items-center gap-1.5 mb-1 text-primary fw-semibold" style="font-size: 0.8rem;">
+          <i class="bi bi-robot"></i>
+          <span>Asisten Inventaris</span>
+        </div>
+        <div>
+          Halo! Saya asisten pintar inventaris yang ditenagai oleh <strong>Google Gemini</strong>. Saya terhubung langsung dengan database inventaris Anda untuk menjawab pertanyaan stok, lokasi, maupun kondisi barang.
+        </div>
+        <div class="mt-2 text-muted" style="font-size: 0.78rem;">
+          Coba tanyakan beberapa hal berikut:
+        </div>
+        <div class="gemini-quick-chips">
+          <button class="gemini-chip-btn" data-prompt="Bagaimana rekapitulasi jumlah barang, total unit, dan kondisi barang saat ini?">
+            📊 Rekap Ringkas
+          </button>
+          <button class="gemini-chip-btn" data-prompt="Sebutkan barang apa saja yang kondisinya rusak atau memerlukan perbaikan?">
+            ⚠️ Barang Rusak
+          </button>
+          <button class="gemini-chip-btn" data-prompt="Rangkum sebaran lokasi barang per ruangan dan apa saja isinya?">
+            📍 Sebaran Ruangan
+          </button>
+          <button class="gemini-chip-btn" data-prompt="Berikan rekomendasi SOP pemeliharaan berkala untuk peralatan laboratorium & kantor.">
+            💡 Saran Pemeliharaan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Input -->
+    <div class="gemini-footer">
+      <form id="geminiChatForm" class="m-0">
+        <div class="gemini-input-group">
+          <textarea id="geminiChatInput" class="gemini-textarea" rows="1" placeholder="Tanya tentang inventaris atau ketik pesan..." autocomplete="off"></textarea>
+          <button type="submit" id="btnGeminiSend" class="gemini-send-btn" title="Kirim Pesan">
+            <i class="bi bi-send-fill" style="font-size: 0.9rem;"></i>
+          </button>
+        </div>
+      </form>
+      <div class="d-flex align-items-center justify-content-between mt-1 text-muted px-1" style="font-size: 0.68rem;">
+        <span>Tekan Enter untuk kirim</span>
+        <span class="text-truncate" style="max-width: 190px;"><i class="bi bi-shield-check me-0.5 text-success"></i>Konteks inventaris realtime</span>
       </div>
     </div>
   </div>
@@ -1464,8 +1835,496 @@
         .replace(/'/g, "&#039;");
     }
 
+    // =============================================================
+    // 6. GEMINI AI CHAT INTEGRATION (Model Terbaru & Railway Config)
+    // =============================================================
+    const btnGeminiChatToggle = document.getElementById("btnGeminiChatToggle");
+    const geminiChatWindow = document.getElementById("geminiChatWindow");
+    const btnGeminiCloseChat = document.getElementById("btnGeminiCloseChat");
+    const btnGeminiClearChat = document.getElementById("btnGeminiClearChat");
+    const btnGeminiSettingsToggle = document.getElementById("btnGeminiSettingsToggle");
+    const geminiSettingsPanel = document.getElementById("geminiSettingsPanel");
+    const btnGeminiCloseSettings = document.getElementById("btnGeminiCloseSettings");
+    const geminiApiKeyInput = document.getElementById("geminiApiKeyInput");
+    const geminiModelSelect = document.getElementById("geminiModelSelect");
+    const btnToggleApiKeyVisibility = document.getElementById("btnToggleApiKeyVisibility");
+    const btnSaveGeminiSettings = document.getElementById("btnSaveGeminiSettings");
+    const geminiApiKeyStatusNote = document.getElementById("geminiApiKeyStatusNote");
+    const geminiModelBadge = document.getElementById("geminiModelBadge");
+    const geminiMessages = document.getElementById("geminiMessages");
+    const geminiChatForm = document.getElementById("geminiChatForm");
+    const geminiChatInput = document.getElementById("geminiChatInput");
+    const btnGeminiSend = document.getElementById("btnGeminiSend");
+
+    let geminiChatHistory = [];
+    let isGeminiWaiting = false;
+
+    // Helper: Mendapatkan API Key aktif (Railway Environment vs Local Storage)
+    function getActiveGeminiApiKey() {
+      return (env.VITE_GEMINI_API_KEY && env.VITE_GEMINI_API_KEY.trim() && !env.VITE_GEMINI_API_KEY.includes("YOUR_GEMINI_API_KEY"))
+        ? env.VITE_GEMINI_API_KEY.trim()
+        : (localStorage.getItem("custom_gemini_api_key") || "").trim();
+    }
+
+    // Helper: Mendapatkan Model aktif
+    function getActiveGeminiModel() {
+      return localStorage.getItem("custom_gemini_model") ||
+        (env.VITE_GEMINI_MODEL && env.VITE_GEMINI_MODEL.trim() ? env.VITE_GEMINI_MODEL.trim() : "gemini-3.8-flash");
+    }
+
+    // Update Tampilan UI Pengaturan & Status
+    function refreshGeminiConfigUI() {
+      const activeKey = getActiveGeminiApiKey();
+      const activeModel = getActiveGeminiModel();
+
+      geminiModelBadge.textContent = activeModel;
+      geminiModelSelect.value = activeModel;
+
+      if (env.VITE_GEMINI_API_KEY && env.VITE_GEMINI_API_KEY.trim() && !env.VITE_GEMINI_API_KEY.includes("YOUR_GEMINI_API_KEY")) {
+        geminiApiKeyInput.value = "••••••••••••••••••••••••";
+        geminiApiKeyInput.disabled = true;
+        geminiApiKeyStatusNote.innerHTML = '<span class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Tersambung via Environment Railway (VITE_GEMINI_API_KEY)</span>';
+      } else if (localStorage.getItem("custom_gemini_api_key")) {
+        geminiApiKeyInput.value = localStorage.getItem("custom_gemini_api_key");
+        geminiApiKeyInput.disabled = false;
+        geminiApiKeyStatusNote.innerHTML = '<span class="text-primary fw-semibold"><i class="bi bi-hdd-fill me-1"></i>Tersimpan di Penyimpanan Browser</span>';
+      } else {
+        geminiApiKeyInput.value = "";
+        geminiApiKeyInput.disabled = false;
+        geminiApiKeyStatusNote.innerHTML = '<span class="text-danger fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i>Belum dikonfigurasi. Masukkan VITE_GEMINI_API_KEY di Railway atau isi di sini.</span>';
+      }
+    }
+
+    // Toggle Chat Window
+    btnGeminiChatToggle.addEventListener("click", () => {
+      const isHidden = geminiChatWindow.classList.contains("d-none");
+      if (isHidden) {
+        geminiChatWindow.classList.remove("d-none");
+        refreshGeminiConfigUI();
+        geminiChatInput.focus();
+        scrollToBottom();
+      } else {
+        geminiChatWindow.classList.add("d-none");
+      }
+    });
+
+    btnGeminiCloseChat.addEventListener("click", () => {
+      geminiChatWindow.classList.add("d-none");
+    });
+
+    // Toggle Settings Panel
+    btnGeminiSettingsToggle.addEventListener("click", () => {
+      geminiSettingsPanel.classList.toggle("d-none");
+      refreshGeminiConfigUI();
+    });
+
+    btnGeminiCloseSettings.addEventListener("click", () => {
+      geminiSettingsPanel.classList.add("d-none");
+    });
+
+    // Toggle Eye Visibility API Key
+    btnToggleApiKeyVisibility.addEventListener("click", () => {
+      if (geminiApiKeyInput.type === "password") {
+        geminiApiKeyInput.type = "text";
+        btnToggleApiKeyVisibility.innerHTML = '<i class="bi bi-eye-slash"></i>';
+      } else {
+        geminiApiKeyInput.type = "password";
+        btnToggleApiKeyVisibility.innerHTML = '<i class="bi bi-eye"></i>';
+      }
+    });
+
+    // Simpan Pengaturan Lokal
+    btnSaveGeminiSettings.addEventListener("click", () => {
+      const customKey = geminiApiKeyInput.value.trim();
+      const customModel = geminiModelSelect.value;
+
+      if (!geminiApiKeyInput.disabled && customKey && !customKey.startsWith("•••")) {
+        localStorage.setItem("custom_gemini_api_key", customKey);
+      }
+      localStorage.setItem("custom_gemini_model", customModel);
+
+      refreshGeminiConfigUI();
+      geminiSettingsPanel.classList.add("d-none");
+      showToast("Pengaturan Gemini AI berhasil disimpan!");
+    });
+
+    // Bersihkan Riwayat Chat
+    btnGeminiClearChat.addEventListener("click", () => {
+      geminiChatHistory = [];
+      const messages = geminiMessages.querySelectorAll(".gemini-msg");
+      messages.forEach((msg, idx) => {
+        if (idx > 0) msg.remove();
+      });
+      showToast("Riwayat percakapan telah dibersihkan.");
+    });
+
+    function scrollToBottom() {
+      geminiMessages.scrollTop = geminiMessages.scrollHeight;
+    }
+
+    // Render Format Markdown untuk Pesan AI
+    function formatMarkdown(text) {
+      if (!text) return "";
+      let html = escapeHtml(text);
+
+      // Code blocks ```code```
+      html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        return `<pre class="bg-dark text-light p-2.5 rounded-3 my-2 overflow-auto small"><code>${code.trim()}</code></pre>`;
+      });
+
+      // Inline code `code`
+      html = html.replace(/`([^`]+)`/g, '<code class="bg-light px-1.5 py-0.5 rounded text-danger small border">$1</code>');
+
+      // Headers #, ##, ###
+      html = html.replace(/^### (.*$)/gim, '<h6 class="fw-bold mt-2 mb-1 text-primary">$1</h6>');
+      html = html.replace(/^## (.*$)/gim, '<h5 class="fw-bold mt-2 mb-1 text-primary">$1</h5>');
+      html = html.replace(/^# (.*$)/gim, '<h5 class="fw-bold mt-2 mb-1 text-primary">$1</h5>');
+
+      // Bold & Italic
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+      // Blockquotes
+      html = html.replace(/^\&gt;\s?(.*$)/gim, '<blockquote class="border-start border-3 border-primary ps-2 text-muted my-1.5 small">$1</blockquote>');
+
+      // Tables
+      html = html.replace(/((?:\|[^\n]+\|\r?\n?){2,})/g, (match) => {
+        const lines = match.trim().split("\n").map(l => l.trim()).filter(Boolean);
+        if (lines.length < 2) return match;
+        let tableHtml = '<div class="table-responsive my-2"><table class="table table-sm table-bordered mb-0" style="font-size: 0.78rem;">';
+        lines.forEach((line, idx) => {
+          if (line.includes("---")) return;
+          const cols = line.split("|").filter((c, i, a) => i > 0 && i < a.length - 1).map(c => c.trim());
+          if (idx === 0) {
+            tableHtml += '<thead class="table-light"><tr>' + cols.map(c => `<th>${c}</th>`).join("") + '</tr></thead><tbody>';
+          } else {
+            tableHtml += '<tr>' + cols.map(c => `<td>${c}</td>`).join("") + '</tr>';
+          }
+        });
+        tableHtml += '</tbody></table></div>';
+        return tableHtml;
+      });
+
+      // Unordered lists
+      html = html.replace(/^\s*[-*]\s+(.*)$/gim, '<li class="ms-3">$1</li>');
+      html = html.replace(/(<li class="ms-3">.*<\/li>\s*)+/g, '<ul class="mb-2 ps-1">$0</ul>');
+
+      // Numbered lists
+      html = html.replace(/^\s*\d+\.\s+(.*)$/gim, '<li class="ms-3 list-numbered-item">$1</li>');
+      html = html.replace(/(<li class="ms-3 list-numbered-item">.*<\/li>\s*)+/g, '<ol class="mb-2 ps-1">$0</ol>');
+
+      // Paragraphs & Line breaks
+      html = html.replace(/\n{2,}/g, '<div class="my-1.5"></div>');
+      html = html.replace(/\n/g, '<br>');
+
+      return html;
+    }
+
+    // Ambil Snapshot Data Inventaris Realtime untuk Konteks Gemini
+    function getInventoryContextSummary() {
+      const keys = Object.keys(inventoryData || {});
+      if (keys.length === 0) {
+        return "Saat ini database inventaris masih kosong atau belum ada item yang terdaftar.";
+      }
+
+      let totalUnits = 0;
+      let countBaik = 0;
+      let countRusakRingan = 0;
+      let countRusakBerat = 0;
+      const locationsMap = {};
+      const itemList = [];
+
+      keys.forEach((k) => {
+        const item = inventoryData[k] || {};
+        const nama = item.namaBarang || "Tanpa Nama";
+        const kat = item.kategori || "Umum";
+        const qty = parseInt(item.jumlah, 10) || 0;
+        const kon = item.kondisi || "Baik";
+        const loc = (item.lokasi && item.lokasi.trim()) ? item.lokasi.trim() : "Lokasi Belum Ditentukan";
+
+        totalUnits += qty;
+        if (kon === "Baik") countBaik += qty;
+        else if (kon === "Rusak Ringan") countRusakRingan += qty;
+        else if (kon === "Rusak Berat") countRusakBerat += qty;
+
+        if (!locationsMap[loc]) locationsMap[loc] = [];
+        locationsMap[loc].push(`${nama} (${qty} unit, kondisi: ${kon})`);
+
+        itemList.push(`- [ID: ${k}] ${nama} | Kategori: ${kat} | Jumlah: ${qty} Unit | Kondisi: ${kon} | Lokasi: ${loc} | Petugas: ${item.createdBy || '-'}`);
+      });
+
+      let locSummary = "";
+      for (const [locName, items] of Object.entries(locationsMap)) {
+        locSummary += `• Ruangan/Lokasi "${locName}": ${items.join("; ")}\n`;
+      }
+
+      return `RINGKASAN STATISTIK:
+- Total Jenis Barang: ${keys.length} item
+- Total Unit Fisik: ${totalUnits} unit
+- Kondisi Baik: ${countBaik} unit
+- Kondisi Rusak Ringan: ${countRusakRingan} unit
+- Kondisi Rusak Berat: ${countRusakBerat} unit
+
+SEBARAN BARANG PER RUANGAN:
+${locSummary}
+DAFTAR LENGKAP SEMUA BARANG:
+${itemList.join("\n")}`;
+    }
+
+    // Tambahkan Bubble Pesan ke Chat Window
+    function appendChatMessage(role, content, rawMarkdown = true) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `gemini-msg ${role === "user" ? "gemini-msg-user" : "gemini-msg-bot"}`;
+
+      if (role === "user") {
+        msgDiv.textContent = content;
+      } else {
+        const header = document.createElement("div");
+        header.className = "d-flex align-items-center justify-content-between mb-1 text-primary fw-semibold";
+        header.style.fontSize = "0.78rem";
+        header.innerHTML = `
+          <div class="d-flex align-items-center gap-1">
+            <i class="bi bi-robot"></i>
+            <span>Asisten Inventaris</span>
+          </div>
+          <button class="btn btn-link btn-sm p-0 text-muted copy-btn" title="Salin Jawaban" style="font-size: 0.72rem;">
+            <i class="bi bi-copy"></i>
+          </button>
+        `;
+
+        const body = document.createElement("div");
+        body.innerHTML = rawMarkdown ? formatMarkdown(content) : content;
+
+        msgDiv.appendChild(header);
+        msgDiv.appendChild(body);
+
+        // Copy button event
+        const copyBtn = msgDiv.querySelector(".copy-btn");
+        if (copyBtn) {
+          copyBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(content).then(() => {
+              copyBtn.innerHTML = '<i class="bi bi-check text-success"></i>';
+              setTimeout(() => { copyBtn.innerHTML = '<i class="bi bi-copy"></i>'; }, 2000);
+            });
+          });
+        }
+      }
+
+      geminiMessages.appendChild(msgDiv);
+      scrollToBottom();
+      return msgDiv;
+    }
+
+    // Indikator Mengetik
+    let typingBubble = null;
+    function showTypingIndicator() {
+      if (typingBubble) return;
+      typingBubble = document.createElement("div");
+      typingBubble.className = "gemini-msg gemini-msg-bot";
+      typingBubble.innerHTML = `
+        <div class="gemini-typing">
+          <div class="gemini-typing-dot"></div>
+          <div class="gemini-typing-dot"></div>
+          <div class="gemini-typing-dot"></div>
+        </div>
+      `;
+      geminiMessages.appendChild(typingBubble);
+      scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+      if (typingBubble) {
+        typingBubble.remove();
+        typingBubble = null;
+      }
+    }
+
+    // Panggil Endpoint Gemini API (dengan Auto-Fallback Model)
+    async function requestGeminiAPI(conversationHistory, modelToUse, apiKey) {
+      const inventoryContext = getInventoryContextSummary();
+      const systemInstruction = {
+        parts: [
+          {
+            text: `Anda adalah "Asisten AI Inventaris Cerdas" untuk Sistem Inventaris Barang Laboratorium & Kantor.
+Tugas utama Anda:
+1. Menjawab pertanyaan pengguna seputar ketersediaan stok, jumlah unit, sebaran lokasi ruangan, dan kondisi barang (Baik, Rusak Ringan, Rusak Berat) berdasarkan DATA INVENTARIS REALTIME di bawah.
+2. Memberikan rekomendasi jadwal pemeliharaan alat, SOP operasional laboratorium/kantor, serta usulan tindakan perbaikan untuk barang yang rusak.
+3. Membantu membuat rekap atau draft laporan inventaris yang rapi jika diminta oleh petugas.
+4. Gunakan Bahasa Indonesia yang ramah, profesional, ringkas, dan solutif.
+5. Format teks dengan rapi menggunakan Markdown (gunakan bullet points, bold untuk penekanan, atau tabel ringkas bila relevan).
+
+=== DATA INVENTARIS REALTIME SAAT INI ===
+${inventoryContext}
+=========================================
+
+Catatan penting:
+Jika pengguna bertanya tentang barang atau ruangan yang tidak tercantum dalam data di atas, jawab dengan ramah bahwa barang atau ruangan tersebut saat ini belum terdaftar di sistem inventaris.`
+          }
+        ]
+      };
+
+      const payload = {
+        system_instruction: systemInstruction,
+        contents: conversationHistory,
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 2048
+        }
+      };
+
+      // Model fallback chain: mulai dari model terbaru
+      const candidateModels = [
+        modelToUse,
+        "gemini-3.8-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash"
+      ].filter((m, i, arr) => m && arr.indexOf(m) === i);
+
+      let lastError = null;
+
+      for (const m of candidateModels) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            const errJson = await response.json().catch(() => ({}));
+            const errMsg = errJson.error?.message || `HTTP ${response.status}`;
+            if (response.status === 404 || errMsg.toLowerCase().includes("not found")) {
+              console.warn(`Model ${m} tidak tersedia (404), mencoba kandidat berikutnya...`);
+              lastError = new Error(errMsg);
+              continue;
+            }
+            throw new Error(errMsg);
+          }
+
+          const data = await response.json();
+          const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!replyText) {
+            throw new Error("Respon teks dari model Gemini kosong.");
+          }
+          return { replyText, activeModel: m };
+        } catch (err) {
+          lastError = err;
+          if (err.message && (err.message.includes("404") || err.message.toLowerCase().includes("not found"))) {
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      throw lastError || new Error("Gagal terhubung ke layanan Gemini API.");
+    }
+
+    // Handler Kirim Pesan Pengguna
+    async function handleUserMessage(promptText) {
+      const text = promptText.trim();
+      if (!text || isGeminiWaiting) return;
+
+      const apiKey = getActiveGeminiApiKey();
+      const currentModel = getActiveGeminiModel();
+
+      // Tambahkan bubble user
+      appendChatMessage("user", text);
+      geminiChatInput.value = "";
+      geminiChatInput.style.height = "auto";
+
+      // Cek apakah API Key sudah ada
+      if (!apiKey) {
+        const notice = `⚠️ **Gemini API Key belum terkonfigurasi.**<br><br>
+Agar asisten AI dapat menjawab:<br>
+1. <strong>Di Railway:</strong> Buka Project Anda &rarr; <em>Variables</em> &rarr; Tambahkan:<br>
+<code>VITE_GEMINI_API_KEY = your_gemini_api_key</code><br><br>
+2. <strong>Uji Langsung:</strong> Klik ikon <i class="bi bi-gear-fill"></i> <strong>Pengaturan</strong> di kanan atas chat ini untuk memasukkan API Key secara langsung (dapat dibuat gratis di <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a>).`;
+        appendChatMessage("bot", notice, false);
+        geminiSettingsPanel.classList.remove("d-none");
+        return;
+      }
+
+      // Siapkan history percakapan
+      geminiChatHistory.push({
+        role: "user",
+        parts: [{ text: text }]
+      });
+
+      if (geminiChatHistory.length > 20) {
+        geminiChatHistory = geminiChatHistory.slice(geminiChatHistory.length - 20);
+      }
+
+      // State loading
+      isGeminiWaiting = true;
+      btnGeminiSend.disabled = true;
+      showTypingIndicator();
+
+      try {
+        const { replyText, activeModel } = await requestGeminiAPI(geminiChatHistory, currentModel, apiKey);
+        hideTypingIndicator();
+
+        // Simpan respon AI ke history
+        geminiChatHistory.push({
+          role: "model",
+          parts: [{ text: replyText }]
+        });
+
+        // Update badge jika ada fallback model yang dipakai
+        if (activeModel && activeModel !== currentModel) {
+          geminiModelBadge.textContent = activeModel;
+        }
+
+        appendChatMessage("bot", replyText, true);
+      } catch (error) {
+        hideTypingIndicator();
+        console.error("Gemini API Error:", error);
+        const errorMsg = `❌ **Gagal memproses pesan:** ${escapeHtml(error.message || "Terjadi kesalahan koneksi")}.<br><br>
+Periksa kembali apakah API Key Anda valid dan memiliki kuota di Google AI Studio.`;
+        appendChatMessage("bot", errorMsg, false);
+      } finally {
+        isGeminiWaiting = false;
+        btnGeminiSend.disabled = false;
+        geminiChatInput.focus();
+      }
+    }
+
+    // Submit Chat Form
+    geminiChatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      handleUserMessage(geminiChatInput.value);
+    });
+
+    // Enter to Send (Shift+Enter untuk baris baru)
+    geminiChatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleUserMessage(geminiChatInput.value);
+      }
+    });
+
+    // Auto resize textarea
+    geminiChatInput.addEventListener("input", () => {
+      geminiChatInput.style.height = "auto";
+      geminiChatInput.style.height = Math.min(geminiChatInput.scrollHeight, 90) + "px";
+    });
+
+    // Quick Chips Event Delegation
+    geminiMessages.addEventListener("click", (e) => {
+      const chip = e.target.closest(".gemini-chip-btn");
+      if (chip && chip.dataset.prompt) {
+        handleUserMessage(chip.dataset.prompt);
+      }
+    });
+
+    // Inisialisasi awal UI Gemini
+    refreshGeminiConfigUI();
+
     // Expose functions globally jika dibutuhkan inspeksi
-    window._app = { auth, db };
+    window._app = { auth, db, handleUserMessage };
   </script>
 </body>
 </html>
+
