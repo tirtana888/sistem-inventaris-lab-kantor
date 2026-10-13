@@ -465,10 +465,17 @@ ${inventoryContext}
   - `feat: integrate Google Gemini 3.8 Flash AI chat assistant with live inventory context`
   - `Merge pull request #1 from tirtana888/feature/gemini-ai-chat`
 - **Railway Deployment**: Otomatis mentrigger build dan deploy setiap kali ada perubahan pada branch `main`.
-- **Environment Variables**:
-  - `VITE_FIREBASE_*` (Kredensial Firebase Modular SDK)
-  - `VITE_GEMINI_API_KEY` (Kunci API Google AI Studio)
-  - `VITE_GEMINI_MODEL` (`gemini-3.8-flash`)
+- **Environment Variables (Kredensial Disamarkan / Blur untuk Keamanan)**:
+  - `VITE_FIREBASE_API_KEY`: `AIzaSy***********************************`
+  - `VITE_FIREBASE_AUTH_DOMAIN`: `inventaris-***.firebaseapp.com`
+  - `VITE_FIREBASE_DATABASE_URL`: `https://inventaris-***-default-rtdb.asia-southeast1.firebasedatabase.app`
+  - `VITE_FIREBASE_PROJECT_ID`: `inventaris-***`
+  - `VITE_FIREBASE_STORAGE_BUCKET`: `inventaris-***.firebasestorage.app`
+  - `VITE_FIREBASE_MESSAGING_SENDER_ID`: `1075*********`
+  - `VITE_FIREBASE_APP_ID`: `1:1075*********:web:********************`
+  - `VITE_GEMINI_API_KEY`: `AIzaSy***********************************`
+  - `VITE_GEMINI_MODEL`: `gemini-3.8-flash`
+
 
 ---
 *Laporan dibuat secara sistematis untuk pemenuhan Checkpoint 3 Pengembangan Aplikasi Web Inventaris Lab & Kantor.*

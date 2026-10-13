@@ -73,17 +73,17 @@ Untuk deployment di **Railway / Vercel**:
 Masuk ke menu **Variables** di dashboard Railway/Vercel proyek Anda, lalu tambahkan variabel berikut:
 
 ```env
-# Firebase Configuration
-VITE_FIREBASE_API_KEY=AIzaSy...
-VITE_FIREBASE_AUTH_DOMAIN=inventaris-lab--uc.firebaseapp.com
-VITE_FIREBASE_DATABASE_URL=https://inventaris-lab--uc-default-rtdb.asia-southeast1.firebasedatabase.app
-VITE_FIREBASE_PROJECT_ID=inventaris-lab--uc
-VITE_FIREBASE_STORAGE_BUCKET=inventaris-lab--uc.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=1075978973208
-VITE_FIREBASE_APP_ID=1:1075978973208:web:abcdef...
+# Firebase Configuration (Nilai kredensial disamarkan / blur)
+VITE_FIREBASE_API_KEY=AIzaSy***********************************
+VITE_FIREBASE_AUTH_DOMAIN=inventaris-***.firebaseapp.com
+VITE_FIREBASE_DATABASE_URL=https://inventaris-***-default-rtdb.asia-southeast1.firebasedatabase.app
+VITE_FIREBASE_PROJECT_ID=inventaris-***
+VITE_FIREBASE_STORAGE_BUCKET=inventaris-***.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=1075*********
+VITE_FIREBASE_APP_ID=1:1075*********:web:********************
 
 # Google Gemini AI Configuration (Model Terbaru: Gemini 3.8 Flash)
-VITE_GEMINI_API_KEY=AIzaSy...
+VITE_GEMINI_API_KEY=AIzaSy***********************************
 VITE_GEMINI_MODEL=gemini-3.8-flash
 ```
 
