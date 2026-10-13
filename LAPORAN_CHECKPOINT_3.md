@@ -6,8 +6,12 @@
 - **Teknologi**: HTML5, Bootstrap 5.3, Firebase Modular SDK v10 (Auth & Realtime Database), Google Gemini 3.8 Flash API, Vite
 - **Repositori GitHub**: [https://github.com/tirtana888/sistem-inventaris-lab-kantor](https://github.com/tirtana888/sistem-inventaris-lab-kantor)
 - **Deployment Platform**: Railway / Vercel (Production Ready)
+- **Akun Demo Pengujian**:
+  - Email / Username: `atirtana@student.ciputra.ac.id`
+  - Password: `123456`
 
 ---
+
 
 ## 🎯 Ringkasan Pencapaian Progres (95%)
 

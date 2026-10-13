@@ -4,6 +4,13 @@ Aplikasi Web *Single Page Application* (SPA) modern dan responsif untuk pencatat
 
 ---
 
+## 👤 Akun Demo untuk Pengujian
+Gunakan kredensial akun demo berikut untuk masuk dan menguji seluruh fitur sistem:
+- **Email / Username**: `atirtana@student.ciputra.ac.id`
+- **Password**: `123456`
+
+---
+
 ## 🚀 Fitur Utama
 
 1. **Autentikasi Pengguna (Firebase Auth)**:
