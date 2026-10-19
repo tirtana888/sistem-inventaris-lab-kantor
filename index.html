@@ -991,30 +991,30 @@
   </div>
 
   <!-- ============================================== -->
-  <!-- FLOATING GEMINI AI CHATBOT WIDGET              -->
+  <!-- FLOATING DEEPSEEK AI CHATBOT WIDGET            -->
   <!-- ============================================== -->
   <!-- FAB Toggle Button -->
-  <button id="btnGeminiChatToggle" class="gemini-fab" title="Tanya Asisten AI Gemini">
-    <i class="bi bi-stars fs-5"></i>
+  <button id="btnGeminiChatToggle" class="gemini-fab" title="Tanya Asisten AI DeepSeek">
+    <i class="bi bi-robot fs-5"></i>
     <span>Tanya AI</span>
-    <span class="ai-badge">Gemini</span>
+    <span class="ai-badge">DeepSeek</span>
   </button>
 
-  <!-- Gemini Chat Window -->
-  <div id="geminiChatWindow" class="gemini-chat-window d-none" role="region" aria-label="Asisten AI Inventaris">
+  <!-- DeepSeek Chat Window -->
+  <div id="geminiChatWindow" class="gemini-chat-window d-none" role="region" aria-label="Asisten AI Inventaris DeepSeek">
     <!-- Header -->
     <div class="gemini-header d-flex align-items-center justify-content-between">
       <div class="d-flex align-items-center gap-2.5">
         <div class="gemini-avatar">
-          <i class="bi bi-stars"></i>
+          <i class="bi bi-robot"></i>
         </div>
         <div>
           <div class="fw-bold text-white small d-flex align-items-center gap-1.5">
-            <span>Asisten Inventaris</span>
+            <span>Asisten DeepSeek</span>
             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.65rem;">Online</span>
           </div>
           <div class="d-flex align-items-center gap-1 mt-0.5">
-            <span class="badge bg-secondary-subtle text-light border border-secondary text-truncate" id="geminiModelBadge" style="font-size: 0.68rem; max-width: 140px;">gemini-3.8-flash</span>
+            <span class="badge bg-secondary-subtle text-light border border-secondary text-truncate" id="geminiModelBadge" style="font-size: 0.68rem; max-width: 140px;">deepseek-chat</span>
           </div>
         </div>
       </div>
@@ -1034,27 +1034,24 @@
     <!-- Collapsible Settings Panel -->
     <div id="geminiSettingsPanel" class="gemini-settings-card d-none">
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <span class="small fw-bold text-dark"><i class="bi bi-sliders me-1 text-primary"></i>Pengaturan Gemini AI</span>
+        <span class="small fw-bold text-dark"><i class="bi bi-sliders me-1 text-primary"></i>Pengaturan DeepSeek AI</span>
         <button id="btnGeminiCloseSettings" class="btn btn-link btn-sm p-0 text-muted" style="font-size: 0.75rem;">Tutup</button>
       </div>
       <div class="mb-2">
-        <label for="geminiApiKeyInput" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">Gemini API Key (Google AI Studio)</label>
+        <label for="geminiApiKeyInput" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">DeepSeek API Key (platform.deepseek.com)</label>
         <div class="input-group input-group-sm">
-          <input type="password" class="form-control" id="geminiApiKeyInput" placeholder="Masukkan API Key jika belum diset di Railway" />
+          <input type="password" class="form-control" id="geminiApiKeyInput" placeholder="sk-..." />
           <button class="btn btn-outline-secondary" type="button" id="btnToggleApiKeyVisibility"><i class="bi bi-eye"></i></button>
         </div>
         <div class="small mt-1" id="geminiApiKeyStatusNote" style="font-size: 0.7rem; color: #64748b;">
-          Di Railway, tambahkan variable <code>VITE_GEMINI_API_KEY</code>.
+          Di Railway, tambahkan variable <code>VITE_DEEPSEEK_API_KEY</code>.
         </div>
       </div>
       <div class="mb-2">
-        <label for="geminiModelSelect" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">Pilihan Model Gemini</label>
+        <label for="geminiModelSelect" class="form-label small text-muted mb-1" style="font-size: 0.75rem;">Pilihan Model DeepSeek</label>
         <select class="form-select form-select-sm" id="geminiModelSelect">
-          <option value="gemini-3.8-flash">Gemini 3.8 Flash (Generasi Terbaru - Default)</option>
-          <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite (Cepat & Ringan)</option>
-          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-          <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-          <option value="gemini-1.5-flash">Gemini 1.5 Flash (Stabil)</option>
+          <option value="deepseek-chat">deepseek-chat (DeepSeek-V3 - Cepat & Cerdas / Default)</option>
+          <option value="deepseek-reasoner">deepseek-reasoner (DeepSeek-R1 - Penalaran & Reasoning)</option>
         </select>
       </div>
       <div class="d-flex justify-content-end gap-1.5">
@@ -1070,10 +1067,10 @@
       <div class="gemini-msg gemini-msg-bot">
         <div class="d-flex align-items-center gap-1.5 mb-1 text-primary fw-semibold" style="font-size: 0.8rem;">
           <i class="bi bi-robot"></i>
-          <span>Asisten Inventaris</span>
+          <span>Asisten Inventaris DeepSeek</span>
         </div>
         <div>
-          Halo! Saya asisten pintar inventaris yang ditenagai oleh <strong>Google Gemini</strong>. Saya terhubung langsung dengan database inventaris Anda untuk menjawab pertanyaan stok, lokasi, maupun kondisi barang.
+          Halo! Saya asisten pintar inventaris yang ditenagai oleh <strong>DeepSeek AI</strong>. Saya terhubung langsung secara realtime dengan database inventaris lab & kantor Anda untuk menjawab pertanyaan stok, lokasi, maupun kondisi barang secara akurat.
         </div>
         <div class="mt-2 text-muted" style="font-size: 0.78rem;">
           Coba tanyakan beberapa hal berikut:
@@ -1989,39 +1986,40 @@
     let geminiChatHistory = [];
     let isGeminiWaiting = false;
 
-    // Helper: Mendapatkan API Key aktif (Railway Environment vs Local Storage)
-    function getActiveGeminiApiKey() {
-      return (env.VITE_GEMINI_API_KEY && env.VITE_GEMINI_API_KEY.trim() && !env.VITE_GEMINI_API_KEY.includes("YOUR_GEMINI_API_KEY"))
-        ? env.VITE_GEMINI_API_KEY.trim()
-        : (localStorage.getItem("custom_gemini_api_key") || "").trim();
+    // Helper: Mendapatkan DeepSeek API Key aktif (Railway Environment vs Local Storage)
+    function getActiveDeepSeekApiKey() {
+      return (env.VITE_DEEPSEEK_API_KEY && env.VITE_DEEPSEEK_API_KEY.trim() && !env.VITE_DEEPSEEK_API_KEY.includes("YOUR_DEEPSEEK_API_KEY"))
+        ? env.VITE_DEEPSEEK_API_KEY.trim()
+        : (env.VITE_GEMINI_API_KEY && env.VITE_GEMINI_API_KEY.startsWith("sk-") ? env.VITE_GEMINI_API_KEY.trim() : "")
+          || (localStorage.getItem("custom_deepseek_api_key") || localStorage.getItem("custom_gemini_api_key") || "").trim();
     }
 
     // Helper: Mendapatkan Model aktif
-    function getActiveGeminiModel() {
-      return localStorage.getItem("custom_gemini_model") ||
-        (env.VITE_GEMINI_MODEL && env.VITE_GEMINI_MODEL.trim() ? env.VITE_GEMINI_MODEL.trim() : "gemini-3.8-flash");
+    function getActiveDeepSeekModel() {
+      return localStorage.getItem("custom_deepseek_model") ||
+        (env.VITE_DEEPSEEK_MODEL && env.VITE_DEEPSEEK_MODEL.trim() ? env.VITE_DEEPSEEK_MODEL.trim() : "deepseek-chat");
     }
 
     // Update Tampilan UI Pengaturan & Status
     function refreshGeminiConfigUI() {
-      const activeKey = getActiveGeminiApiKey();
-      const activeModel = getActiveGeminiModel();
+      const activeKey = getActiveDeepSeekApiKey();
+      const activeModel = getActiveDeepSeekModel();
 
       geminiModelBadge.textContent = activeModel;
       geminiModelSelect.value = activeModel;
 
-      if (env.VITE_GEMINI_API_KEY && env.VITE_GEMINI_API_KEY.trim() && !env.VITE_GEMINI_API_KEY.includes("YOUR_GEMINI_API_KEY")) {
+      if (env.VITE_DEEPSEEK_API_KEY && env.VITE_DEEPSEEK_API_KEY.trim() && !env.VITE_DEEPSEEK_API_KEY.includes("YOUR_DEEPSEEK_API_KEY")) {
         geminiApiKeyInput.value = "••••••••••••••••••••••••";
         geminiApiKeyInput.disabled = true;
-        geminiApiKeyStatusNote.innerHTML = '<span class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Tersambung via Environment Railway (VITE_GEMINI_API_KEY)</span>';
-      } else if (localStorage.getItem("custom_gemini_api_key")) {
-        geminiApiKeyInput.value = localStorage.getItem("custom_gemini_api_key");
+        geminiApiKeyStatusNote.innerHTML = '<span class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Tersambung via Environment Railway (VITE_DEEPSEEK_API_KEY)</span>';
+      } else if (activeKey) {
+        geminiApiKeyInput.value = activeKey;
         geminiApiKeyInput.disabled = false;
         geminiApiKeyStatusNote.innerHTML = '<span class="text-primary fw-semibold"><i class="bi bi-hdd-fill me-1"></i>Tersimpan di Penyimpanan Browser</span>';
       } else {
         geminiApiKeyInput.value = "";
         geminiApiKeyInput.disabled = false;
-        geminiApiKeyStatusNote.innerHTML = '<span class="text-danger fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i>Belum dikonfigurasi. Masukkan VITE_GEMINI_API_KEY di Railway atau isi di sini.</span>';
+        geminiApiKeyStatusNote.innerHTML = '<span class="text-danger fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i>Belum dikonfigurasi. Masukkan VITE_DEEPSEEK_API_KEY di Railway atau isi di sini.</span>';
       }
     }
 
@@ -2069,13 +2067,13 @@
       const customModel = geminiModelSelect.value;
 
       if (!geminiApiKeyInput.disabled && customKey && !customKey.startsWith("•••")) {
-        localStorage.setItem("custom_gemini_api_key", customKey);
+        localStorage.setItem("custom_deepseek_api_key", customKey);
       }
-      localStorage.setItem("custom_gemini_model", customModel);
+      localStorage.setItem("custom_deepseek_model", customModel);
 
       refreshGeminiConfigUI();
       geminiSettingsPanel.classList.add("d-none");
-      showToast("Pengaturan Gemini AI berhasil disimpan!");
+      showToast("Pengaturan DeepSeek AI berhasil disimpan!");
     });
 
     // Bersihkan Riwayat Chat
@@ -2269,13 +2267,10 @@ ${itemList.join("\n")}`;
       }
     }
 
-    // Panggil Endpoint Gemini API (dengan Auto-Fallback Model)
-    async function requestGeminiAPI(conversationHistory, modelToUse, apiKey) {
+    // Panggil Endpoint DeepSeek API (OpenAI Compatible)
+    async function requestDeepSeekAPI(conversationHistory, modelToUse, apiKey) {
       const inventoryContext = getInventoryContextSummary();
-      const systemInstruction = {
-        parts: [
-          {
-            text: `Anda adalah "Asisten AI Inventaris Cerdas" untuk Sistem Inventaris Barang Laboratorium & Kantor.
+      const systemPrompt = `Anda adalah "Asisten AI Inventaris Cerdas" untuk Sistem Inventaris Barang Laboratorium & Kantor yang ditenagai oleh DeepSeek AI.
 Tugas utama Anda:
 1. Menjawab pertanyaan pengguna seputar ketersediaan stok, jumlah unit, sebaran lokasi ruangan, dan kondisi barang (Baik, Rusak Ringan, Rusak Berat) berdasarkan DATA INVENTARIS REALTIME di bawah.
 2. Memberikan rekomendasi jadwal pemeliharaan alat, SOP operasional laboratorium/kantor, serta usulan tindakan perbaikan untuk barang yang rusak.
@@ -2288,68 +2283,50 @@ ${inventoryContext}
 =========================================
 
 Catatan penting:
-Jika pengguna bertanya tentang barang atau ruangan yang tidak tercantum dalam data di atas, jawab dengan ramah bahwa barang atau ruangan tersebut saat ini belum terdaftar di sistem inventaris.`
-          }
-        ]
-      };
+Jika pengguna bertanya tentang barang atau ruangan yang tidak tercantum dalam data di atas, jawab dengan ramah bahwa barang atau ruangan tersebut saat ini belum terdaftar di sistem inventaris.`;
+
+      const messages = [
+        { role: "system", content: systemPrompt },
+        ...conversationHistory.map(item => ({
+          role: item.role === "model" ? "assistant" : item.role,
+          content: item.content || (item.parts && item.parts[0] ? item.parts[0].text : "")
+        }))
+      ];
 
       const payload = {
-        system_instruction: systemInstruction,
-        contents: conversationHistory,
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 2048
-        }
+        model: modelToUse || "deepseek-chat",
+        messages: messages,
+        temperature: 0.7,
+        stream: false
       };
 
-      // Model fallback chain: mulai dari model terbaru
-      const candidateModels = [
-        modelToUse,
-        "gemini-3.8-flash",
-        "gemini-3.5-flash-lite",
-        "gemini-2.5-flash",
-        "gemini-2.0-flash",
-        "gemini-1.5-flash"
-      ].filter((m, i, arr) => m && arr.indexOf(m) === i);
+      const response = await fetch("https://api.deepseek.com/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey.trim()}`
+        },
+        body: JSON.stringify(payload)
+      });
 
-      let lastError = null;
-
-      for (const m of candidateModels) {
-        try {
-          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-          const response = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-
-          if (!response.ok) {
-            const errJson = await response.json().catch(() => ({}));
-            const errMsg = errJson.error?.message || `HTTP ${response.status}`;
-            if (response.status === 404 || errMsg.toLowerCase().includes("not found")) {
-              console.warn(`Model ${m} tidak tersedia (404), mencoba kandidat berikutnya...`);
-              lastError = new Error(errMsg);
-              continue;
-            }
-            throw new Error(errMsg);
-          }
-
-          const data = await response.json();
-          const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!replyText) {
-            throw new Error("Respon teks dari model Gemini kosong.");
-          }
-          return { replyText, activeModel: m };
-        } catch (err) {
-          lastError = err;
-          if (err.message && (err.message.includes("404") || err.message.toLowerCase().includes("not found"))) {
-            continue;
-          }
-          throw err;
+      if (!response.ok) {
+        const errJson = await response.json().catch(() => ({}));
+        const errMsg = errJson.error?.message || `HTTP ${response.status} (${response.statusText})`;
+        if (response.status === 401) {
+          throw new Error("API Key DeepSeek tidak valid atau salah. Silakan periksa API Key Anda di platform.deepseek.com.");
+        } else if (response.status === 402) {
+          throw new Error("Saldo akun DeepSeek tidak mencukupi (Insufficient Balance). Silakan periksa saldo di platform.deepseek.com.");
         }
+        throw new Error(errMsg);
       }
 
-      throw lastError || new Error("Gagal terhubung ke layanan Gemini API.");
+      const data = await response.json();
+      const choice = data.choices?.[0];
+      const replyText = choice?.message?.content;
+      if (!replyText) {
+        throw new Error("Respon teks dari model DeepSeek kosong.");
+      }
+      return { replyText, activeModel: data.model || modelToUse };
     }
 
     // Handler Kirim Pesan Pengguna
@@ -2357,8 +2334,8 @@ Jika pengguna bertanya tentang barang atau ruangan yang tidak tercantum dalam da
       const text = promptText.trim();
       if (!text || isGeminiWaiting) return;
 
-      const apiKey = getActiveGeminiApiKey();
-      const currentModel = getActiveGeminiModel();
+      const apiKey = getActiveDeepSeekApiKey();
+      const currentModel = getActiveDeepSeekModel();
 
       // Tambahkan bubble user
       appendChatMessage("user", text);
@@ -2367,11 +2344,11 @@ Jika pengguna bertanya tentang barang atau ruangan yang tidak tercantum dalam da
 
       // Cek apakah API Key sudah ada
       if (!apiKey) {
-        const notice = `⚠️ **Gemini API Key belum terkonfigurasi.**<br><br>
+        const notice = `⚠️ **DeepSeek API Key belum terkonfigurasi.**<br><br>
 Agar asisten AI dapat menjawab:<br>
 1. <strong>Di Railway:</strong> Buka Project Anda &rarr; <em>Variables</em> &rarr; Tambahkan:<br>
-<code>VITE_GEMINI_API_KEY = your_gemini_api_key</code><br><br>
-2. <strong>Uji Langsung:</strong> Klik ikon <i class="bi bi-gear-fill"></i> <strong>Pengaturan</strong> di kanan atas chat ini untuk memasukkan API Key secara langsung (dapat dibuat gratis di <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a>).`;
+<code>VITE_DEEPSEEK_API_KEY = your_deepseek_api_key</code><br><br>
+2. <strong>Uji Langsung:</strong> Klik ikon <i class="bi bi-gear-fill"></i> <strong>Pengaturan</strong> di kanan atas chat ini untuk memasukkan API Key secara langsung (dapat diperoleh di <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">platform.deepseek.com</a>).`;
         appendChatMessage("bot", notice, false);
         geminiSettingsPanel.classList.remove("d-none");
         return;
@@ -2380,7 +2357,7 @@ Agar asisten AI dapat menjawab:<br>
       // Siapkan history percakapan
       geminiChatHistory.push({
         role: "user",
-        parts: [{ text: text }]
+        content: text
       });
 
       if (geminiChatHistory.length > 20) {
@@ -2393,16 +2370,16 @@ Agar asisten AI dapat menjawab:<br>
       showTypingIndicator();
 
       try {
-        const { replyText, activeModel } = await requestGeminiAPI(geminiChatHistory, currentModel, apiKey);
+        const { replyText, activeModel } = await requestDeepSeekAPI(geminiChatHistory, currentModel, apiKey);
         hideTypingIndicator();
 
         // Simpan respon AI ke history
         geminiChatHistory.push({
-          role: "model",
-          parts: [{ text: replyText }]
+          role: "assistant",
+          content: replyText
         });
 
-        // Update badge jika ada fallback model yang dipakai
+        // Update badge jika ada model yang dipakai
         if (activeModel && activeModel !== currentModel) {
           geminiModelBadge.textContent = activeModel;
         }
@@ -2410,9 +2387,9 @@ Agar asisten AI dapat menjawab:<br>
         appendChatMessage("bot", replyText, true);
       } catch (error) {
         hideTypingIndicator();
-        console.error("Gemini API Error:", error);
+        console.error("DeepSeek API Error:", error);
         const errorMsg = `❌ **Gagal memproses pesan:** ${escapeHtml(error.message || "Terjadi kesalahan koneksi")}.<br><br>
-Periksa kembali apakah API Key Anda valid dan memiliki kuota di Google AI Studio.`;
+Periksa kembali apakah API Key Anda valid dan memiliki saldo aktif di <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">platform.deepseek.com</a>.`;
         appendChatMessage("bot", errorMsg, false);
       } finally {
         isGeminiWaiting = false;
