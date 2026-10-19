@@ -13,8 +13,11 @@ Gunakan kredensial akun demo berikut untuk masuk dan menguji seluruh fitur siste
 
 ## 🚀 Fitur Utama
 
-1. **Autentikasi Pengguna (Firebase Auth)**:
+1. **Autentikasi Pengguna & Webmailer (Firebase Auth)**:
    - Form Login & Registrasi dengan validasi input (email & panjang password minimal 6 karakter).
+   - **Webmailer Firebase**: Otomatis mengirimkan email verifikasi akun (`sendEmailVerification()`) setelah pendaftaran.
+   - Banner interaktif di dashboard dengan tombol **Kirim Ulang Email** dan **Cek Status Verifikasi** (`user.reload()`).
+   - Lencana status akun dinamis (*Email Terverifikasi* vs *Belum Verifikasi*).
    - Pengalihan tampilan instan (*reactive state management*) menggunakan `onAuthStateChanged()`.
    - Error handling ramah pengguna dalam Bahasa Indonesia (alert Bootstrap).
    - Logout session yang aman dengan `signOut()`.

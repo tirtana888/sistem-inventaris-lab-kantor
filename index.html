@@ -475,7 +475,7 @@
         <div class="d-none d-md-flex align-items-center gap-2 text-end">
           <div>
             <div class="small fw-semibold text-truncate" style="max-width: 220px;" id="navUserEmail">-</div>
-            <div class="badge bg-light text-secondary border" style="font-size: 0.7rem;">Petugas Terverifikasi</div>
+            <div id="navUserEmailBadge" class="badge bg-light text-secondary border" style="font-size: 0.7rem;">Petugas Terverifikasi</div>
           </div>
           <div class="rounded-circle bg-primary-subtle text-primary p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
             <i class="bi bi-person-fill"></i>
@@ -580,6 +580,9 @@
                 <span>Daftarkan Akun</span>
                 <i class="bi bi-check2-circle"></i>
               </button>
+              <div class="form-text text-center mt-2.5 small text-muted" style="font-size: 0.75rem;">
+                <i class="bi bi-envelope-check text-primary me-1"></i>Webmailer Firebase akan otomatis mengirimkan email verifikasi setelah pendaftaran.
+              </div>
             </form>
           </div>
         </div>
@@ -591,6 +594,32 @@
     <!-- ============================================== -->
     <section id="dashboardView" class="container-fluid px-lg-4 py-4 d-none">
       
+      <!-- Banner Notifikasi Verifikasi Email (Firebase Webmailer) -->
+      <div id="emailVerificationBanner" class="alert alert-warning border-warning-subtle d-none flex-column flex-md-row align-items-md-center justify-content-between p-3 rounded-4 shadow-sm mb-4" role="alert">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 42px; height: 42px;">
+            <i class="bi bi-envelope-exclamation-fill fs-5"></i>
+          </div>
+          <div>
+            <div class="fw-bold text-dark">Email Belum Terverifikasi</div>
+            <div class="small text-muted">
+              Webmailer Firebase telah mengirimkan tautan konfirmasi ke <strong id="verifyUserEmailText">-</strong>. Silakan periksa kotak masuk (Inbox/Spam) dan klik tautan untuk memverifikasi akun Anda.
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2 mt-3 mt-md-0 flex-shrink-0">
+          <button id="btnResendVerification" class="btn btn-warning btn-sm fw-semibold shadow-sm px-3 py-1.5 rounded-3 d-flex align-items-center gap-1.5">
+            <span id="resendSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+            <i class="bi bi-send-fill" id="resendIcon"></i>
+            <span>Kirim Ulang Email</span>
+          </button>
+          <button id="btnCheckVerification" class="btn btn-outline-dark btn-sm fw-semibold px-3 py-1.5 rounded-3 d-flex align-items-center gap-1.5" title="Periksa status verifikasi setelah klik tautan di email">
+            <i class="bi bi-arrow-clockwise"></i>
+            <span>Cek Status</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Welcome & Header Toolbar -->
       <div class="d-flex flex-column flex-md-row md-align-items-center justify-content-between gap-3 mb-4">
         <div>
@@ -1095,7 +1124,8 @@
       createUserWithEmailAndPassword, 
       signInWithEmailAndPassword, 
       signOut, 
-      onAuthStateChanged 
+      onAuthStateChanged,
+      sendEmailVerification
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { 
       getDatabase, 
@@ -1168,6 +1198,13 @@
     const btnLogout = document.getElementById("btnLogout");
     const authAlert = document.getElementById("authAlert");
     const authAlertText = document.getElementById("authAlertText");
+    const navUserEmailBadge = document.getElementById("navUserEmailBadge");
+    const emailVerificationBanner = document.getElementById("emailVerificationBanner");
+    const verifyUserEmailText = document.getElementById("verifyUserEmailText");
+    const btnResendVerification = document.getElementById("btnResendVerification");
+    const btnCheckVerification = document.getElementById("btnCheckVerification");
+    const resendSpinner = document.getElementById("resendSpinner");
+    const resendIcon = document.getElementById("resendIcon");
 
     // Dashboard & Table Elements
     const tableBody = document.getElementById("inventoryTableBody");
@@ -1316,6 +1353,28 @@
           navUserSection.classList.remove("d-none");
           navUserEmail.textContent = user.email;
 
+          // Periksa Status Verifikasi Email (Firebase Auth Webmailer)
+          if (verifyUserEmailText) verifyUserEmailText.textContent = user.email;
+          if (user.emailVerified) {
+            if (emailVerificationBanner) {
+              emailVerificationBanner.classList.add("d-none");
+              emailVerificationBanner.classList.remove("d-flex");
+            }
+            if (navUserEmailBadge) {
+              navUserEmailBadge.className = "badge bg-success-subtle text-success border border-success-subtle";
+              navUserEmailBadge.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Email Terverifikasi';
+            }
+          } else {
+            if (emailVerificationBanner) {
+              emailVerificationBanner.classList.remove("d-none");
+              emailVerificationBanner.classList.add("d-flex");
+            }
+            if (navUserEmailBadge) {
+              navUserEmailBadge.className = "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle";
+              navUserEmailBadge.innerHTML = '<i class="bi bi-envelope-exclamation me-1"></i>Belum Verifikasi';
+            }
+          }
+
           // Aktifkan Realtime Database Listener
           listenToInventoryChanges();
         } else {
@@ -1394,9 +1453,20 @@
       btnRegisterSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Mendaftarkan...`;
 
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        // [WEBMAILER] Kirim email verifikasi otomatis via Firebase Auth
+        if (userCredential && userCredential.user) {
+          try {
+            await sendEmailVerification(userCredential.user);
+            console.log("Webmailer Firebase: Email verifikasi berhasil dikirim ke", email);
+          } catch (mailError) {
+            console.warn("Gagal mengirim email verifikasi otomatis:", mailError);
+          }
+        }
+
         formRegister.reset();
-        showToast("Pendaftaran berhasil! Akun langsung aktif.");
+        showToast("Pendaftaran berhasil! Tautan verifikasi telah dikirim ke email Anda.", true);
       } catch (error) {
         console.error("Register Error:", error);
         showAuthAlert(mapAuthErrorMessage(error.code || error.message));
@@ -1416,6 +1486,62 @@
         showToast("Gagal melakukan proses logout.", false);
       }
     });
+
+    // [WEBMAILER] Handler Kirim Ulang Email Verifikasi
+    if (btnResendVerification) {
+      btnResendVerification.addEventListener("click", async () => {
+        if (!auth.currentUser) return;
+        btnResendVerification.disabled = true;
+        if (resendSpinner) resendSpinner.classList.remove("d-none");
+        if (resendIcon) resendIcon.classList.add("d-none");
+
+        try {
+          await sendEmailVerification(auth.currentUser);
+          showToast("Email verifikasi berhasil dikirim ulang! Silakan periksa inbox/spam.", true);
+        } catch (error) {
+          console.error("Gagal kirim ulang email verifikasi:", error);
+          if (error.code === "auth/too-many-requests") {
+            showToast("Terlalu sering meminta email. Harap tunggu 1-2 menit sebelum mencoba lagi.", false);
+          } else {
+            showToast("Gagal mengirim email: " + (error.message || error.code), false);
+          }
+        } finally {
+          btnResendVerification.disabled = false;
+          if (resendSpinner) resendSpinner.classList.add("d-none");
+          if (resendIcon) resendIcon.classList.remove("d-none");
+        }
+      });
+    }
+
+    // [WEBMAILER] Handler Cek Status Verifikasi Email Petugas
+    if (btnCheckVerification) {
+      btnCheckVerification.addEventListener("click", async () => {
+        if (!auth.currentUser) return;
+        btnCheckVerification.disabled = true;
+
+        try {
+          await auth.currentUser.reload();
+          if (auth.currentUser.emailVerified) {
+            if (emailVerificationBanner) {
+              emailVerificationBanner.classList.add("d-none");
+              emailVerificationBanner.classList.remove("d-flex");
+            }
+            if (navUserEmailBadge) {
+              navUserEmailBadge.className = "badge bg-success-subtle text-success border border-success-subtle";
+              navUserEmailBadge.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Email Terverifikasi';
+            }
+            showToast("Selamat! Akun Anda telah terverifikasi via email.", true);
+          } else {
+            showToast("Email Anda belum terverifikasi. Harap buka email Anda dan klik tautan verifikasi.", false);
+          }
+        } catch (error) {
+          console.error("Gagal reload status akun:", error);
+          showToast("Gagal memeriksa status: " + (error.message || error.code), false);
+        } finally {
+          btnCheckVerification.disabled = false;
+        }
+      });
+    }
 
     // -------------------------------------------------------------
     // 6. REALTIME DATABASE CRUD OPERATIONS (NODE: /inventaris)

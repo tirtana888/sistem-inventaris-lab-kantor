@@ -80,9 +80,15 @@ formRegister.addEventListener("submit", async (e) => {
   }
 
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // [WEBMAILER] Kirim email verifikasi otomatis via Firebase Auth
+    if (userCredential && userCredential.user) {
+      await sendEmailVerification(userCredential.user);
+    }
+
     formRegister.reset();
-    showToast("Pendaftaran berhasil! Akun langsung aktif.");
+    showToast("Pendaftaran berhasil! Tautan verifikasi telah dikirim ke email Anda.", true);
   } catch (error) {
     console.error("Registrasi gagal:", error);
     showAuthAlert(mapAuthErrorMessage(error.code));
@@ -90,8 +96,44 @@ formRegister.addEventListener("submit", async (e) => {
 });
 ```
 
-#### C. Pengelolaan Sesi Reaktif (`onAuthStateChanged`)
-Mendeteksi perubahan sesi masuk/keluar secara *real-time* dan melakukan pergantian *view* secara instan.
+#### C. Fitur Webmailer Firebase: Kirim Ulang Email & Pengecekan Status Verifikasi
+Menyediakan aksi kirim ulang email verifikasi serta pengecekan status akun petugas secara dinamis via `user.reload()`.
+```javascript
+// [WEBMAILER: KIRIM ULANG EMAIL VERIFIKASI]
+btnResendVerification.addEventListener("click", async () => {
+  if (!auth.currentUser) return;
+  btnResendVerification.disabled = true;
+  try {
+    await sendEmailVerification(auth.currentUser);
+    showToast("Email verifikasi berhasil dikirim ulang! Silakan periksa inbox/spam.", true);
+  } catch (error) {
+    showToast("Gagal mengirim email: " + (error.message || error.code), false);
+  } finally {
+    btnResendVerification.disabled = false;
+  }
+});
+
+// [WEBMAILER: PENGECEKAN STATUS VERIFIKASI AKUN]
+btnCheckVerification.addEventListener("click", async () => {
+  if (!auth.currentUser) return;
+  try {
+    await auth.currentUser.reload();
+    if (auth.currentUser.emailVerified) {
+      emailVerificationBanner.classList.add("d-none");
+      navUserEmailBadge.className = "badge bg-success-subtle text-success border border-success-subtle";
+      navUserEmailBadge.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Email Terverifikasi';
+      showToast("Selamat! Akun Anda telah terverifikasi via email.", true);
+    } else {
+      showToast("Email Anda belum terverifikasi. Harap klik tautan di email verifikasi.", false);
+    }
+  } catch (error) {
+    showToast("Gagal memeriksa status: " + (error.message || error.code), false);
+  }
+});
+```
+
+#### D. Pengelolaan Sesi Reaktif & Deteksi Status Verifikasi (`onAuthStateChanged`)
+Mendeteksi perubahan sesi masuk/keluar serta status kelayakan email petugas secara *real-time*.
 ```javascript
 if (auth) {
   onAuthStateChanged(auth, (user) => {
@@ -104,6 +146,18 @@ if (auth) {
       dashboardView.classList.remove("d-none");
       navUserSection.classList.remove("d-none");
       navUserEmail.textContent = user.email;
+
+      // Deteksi status verifikasi email petugas
+      if (user.emailVerified) {
+        emailVerificationBanner.classList.add("d-none");
+        navUserEmailBadge.className = "badge bg-success-subtle text-success border border-success-subtle";
+        navUserEmailBadge.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Email Terverifikasi';
+      } else {
+        emailVerificationBanner.classList.remove("d-none");
+        emailVerificationBanner.classList.add("d-flex");
+        navUserEmailBadge.className = "badge bg-warning-subtle text-warning-emphasis border border-warning-subtle";
+        navUserEmailBadge.innerHTML = '<i class="bi bi-envelope-exclamation me-1"></i>Belum Verifikasi';
+      }
 
       // Mengaktifkan listener sinkronisasi database
       listenToInventoryChanges();
