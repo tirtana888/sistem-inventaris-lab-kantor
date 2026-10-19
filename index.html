@@ -2134,12 +2134,12 @@
       });
 
       // Unordered lists
-      html = html.replace(/^\s*[-*]\s+(.*)$/gim, '<li class="ms-3">$1</li>');
-      html = html.replace(/(<li class="ms-3">.*<\/li>\s*)+/g, '<ul class="mb-2 ps-1">$0</ul>');
+      html = html.replace(/^[\s]*[-*]\s+(.*)$/gim, '<li class="ms-3">$1</li>');
+      html = html.replace(/(<li class="ms-3">.*?<\/li>(?:\s*<li class="ms-3">.*?<\/li>)*)/gs, (match) => `<ul class="mb-2 ps-1">${match}</ul>`);
 
       // Numbered lists
-      html = html.replace(/^\s*\d+\.\s+(.*)$/gim, '<li class="ms-3 list-numbered-item">$1</li>');
-      html = html.replace(/(<li class="ms-3 list-numbered-item">.*<\/li>\s*)+/g, '<ol class="mb-2 ps-1">$0</ol>');
+      html = html.replace(/^[\s]*\d+\.\s+(.*)$/gim, '<li class="ms-3 list-numbered-item">$1</li>');
+      html = html.replace(/(<li class="ms-3 list-numbered-item">.*?<\/li>(?:\s*<li class="ms-3 list-numbered-item">.*?<\/li>)*)/gs, (match) => `<ol class="mb-2 ps-1">${match}</ol>`);
 
       // Paragraphs & Line breaks
       html = html.replace(/\n{2,}/g, '<div class="my-1.5"></div>');
