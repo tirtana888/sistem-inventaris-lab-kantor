@@ -2133,13 +2133,22 @@
         return tableHtml;
       });
 
+      // Horizontal rules
+      html = html.replace(/^---$/gim, '<hr class="my-2 border-secondary-subtle">');
+
       // Unordered lists
       html = html.replace(/^[\s]*[-*]\s+(.*)$/gim, '<li class="ms-3">$1</li>');
-      html = html.replace(/(<li class="ms-3">.*?<\/li>(?:\s*<li class="ms-3">.*?<\/li>)*)/gs, (match) => `<ul class="mb-2 ps-1">${match}</ul>`);
+      html = html.replace(/((?:<li class="ms-3">.*?<\/li>[\r\n\s]*)+)/g, (match) => {
+        const cleaned = match.replace(/[\r\n]+/g, '');
+        return `<ul class="mb-2 ps-1">${cleaned}</ul>`;
+      });
 
       // Numbered lists
       html = html.replace(/^[\s]*\d+\.\s+(.*)$/gim, '<li class="ms-3 list-numbered-item">$1</li>');
-      html = html.replace(/(<li class="ms-3 list-numbered-item">.*?<\/li>(?:\s*<li class="ms-3 list-numbered-item">.*?<\/li>)*)/gs, (match) => `<ol class="mb-2 ps-1">${match}</ol>`);
+      html = html.replace(/((?:<li class="ms-3 list-numbered-item">.*?<\/li>[\r\n\s]*)+)/g, (match) => {
+        const cleaned = match.replace(/[\r\n]+/g, '');
+        return `<ol class="mb-2 ps-1">${cleaned}</ol>`;
+      });
 
       // Paragraphs & Line breaks
       html = html.replace(/\n{2,}/g, '<div class="my-1.5"></div>');
